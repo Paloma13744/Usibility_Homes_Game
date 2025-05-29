@@ -2,9 +2,9 @@ const nielsenHeuristics = [
     { id: '1', name: 'Visibilidade do Status do Sistema' },
     { id: '2', name: 'Correspondência entre o Sistema e o Mundo Real' },
     { id: '3', name: 'Controle e Liberdade do Usuário' },
-    { id: '4', name: 'Consistência e Padrões' },
+    { id: '4', name: 'Consistência e padronização' },
     { id: '5', name: 'Prevenção de Erros' },
-    { id: '6', name: 'Reconhecimento em vez de Recordação' },
+    { id: '6', name: 'Reconhecimento em vez de memorização' },
     { id: '7', name: 'Flexibilidade e Eficiência de Uso' },
     { id: '8', name: 'Estética e Design Minimalista' },
     { id: '9', name: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
@@ -14,75 +14,142 @@ const nielsenHeuristics = [
 // Problemas de Usabilidade
 const usabilityProblems = [
     {
-        company: 'Empresa de E-commerce',
+        company: 'e-commerce',
         problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', // imagem de problema
-        description: 'Ao clicar em um produto, o usuário é redirecionado para uma página de "Erro 404 - Página não encontrada". Não há informação sobre o que aconteceu.',
-        correctHeuristicId: '9', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
+        description: 'O cliente efetuou uma compra no site, mas não encontrou o seu produto na aba de pedidos.\nQual heurística de usabilidade o site pode utilizar para evitar que esse erro ocorra novamente?',
+        correctHeuristicId: '1', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
         options: [
             { id: '1', text: 'Visibilidade do Status do Sistema' },
             { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
             { id: '5', text: 'Prevenção de Erros' },
-            { id: '4', text: 'Consistência e Padrões' }
+           
         ]
     },
+
+/*
     {
-        company: 'Sistema Bancário Online',
+        company: 'e-commerce',
+        problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', // imagem de problema
+        description: 'O cliente efetuou uma compra no site, mas não encontrou o seu produto na aba de pedidos.\nQual heurística de usabilidade o site pode utilizar para evitar que esse erro ocorra novamente?',
+        correctHeuristicId: '1', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
+        options: [
+            { id: '1', text: 'Visibilidade do Status do Sistema' },
+            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
+            { id: '5', text: 'Prevenção de Erros' },
+           
+        ]
+    },
+
+    {
+        company: 'e-commerce',
+        problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', // imagem de problema
+        description: 'O cliente efetuou uma compra no site, mas não encontrou o seu produto na aba de pedidos.\nQual heurística de usabilidade o site pode utilizar para evitar que esse erro ocorra novamente?',
+        correctHeuristicId: '1', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
+        options: [
+            { id: '1', text: 'Visibilidade do Status do Sistema' },
+            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
+            { id: '5', text: 'Prevenção de Erros' },
+           
+        ]
+    },
+
+    */
+
+
+
+    {
+        company: 'banco',
         problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
-        description: 'O botão "Confirmar Transação" só aparece depois que o mouse passa por uma área específica da tela, sem nenhum aviso visual.',
+        description: 'Após tocar no botão“Enviar PIX”, a tela mostra apenas um círculo girando com a palavra Processando… por mais de 40 segundos.  \nNão há barra de progresso, porcentagem, estimativa de tempo nem confirmação parcial (como “Etiqueta de envio criada”).',
         correctHeuristicId: '1', // Visibilidade do Status do Sistema
         options: [
             { id: '1', text: 'Visibilidade do Status do Sistema' },
-            { id: '6', text: 'Reconhecimento em vez de Recordação' },
-            { id: '8', text: 'Estética e Design Minimalista' },
-            { id: '3', text: 'Controle e Liberdade do Usuário' }
+            { id: '2', text: 'Correspondência entre sistema e mundo real'},
+            { id: '4', text: 'Consistência e padronização' },
+            
         ]
     },
+
+
     {
-        company: 'Aplicativo de Delivery',
+        company: 'banco',
+        problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
+        description: 'Para adicionar um novo destinatário, o app exige que o cliente digite o código numérico de quatro dígitos da agência (ex.: 3414),\n sem campo de busca pelo nome do banco nem lista suspensa. \nMuitos usuários fecham o app para procurar a informação em outro lugar.\n Qual heurística está sendo violada?',
+
+        correctHeuristicId: '5', 
+        options: [
+            { id: '5', text: 'Prevenção de erros' },
+            { id: '2', text: 'Correspondência entre sistema e mundo real' },
+            { id: '6', text: 'Reconhecimento em vez de memorização' },
+
+           
+            
+        ]
+    },
+
+
+    {
+        company: 'banco',
+        problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
+        description: 'Na tela inicial há três botões: TED, DOC e PIX. \nNenhum deles traz rótulo descritivo ou ícone que explique as diferenças (prazo, horário, tarifa). Usuários novatos confundem as opções e escolhem a errada. \n Qual heurística está sendo violada?.',
+        correctHeuristicId: '2', 
+        options: [
+            { id: '2', text: 'Correspondência entre sistema e mundo real'},
+            { id: '8', text: 'Estética e design minimalista'},
+            { id: '3', text: 'Controle e liberdade do usuário'},
+
+            
+            
+        ]
+    },
+
+
+
+    {
+        company: 'restaurante',
         problemImage: 'https://via.placeholder.com/400x200/0000FF/FFFFFF?text=Icones+Confusos',
-        description: 'Os ícones do menu principal são completamente abstratos e não correspondem a nenhuma função conhecida, dificultando a navegação.',
-        correctHeuristicId: '2', // Correspondência entre o Sistema e o Mundo Real
+        description: 'No aplicativo de um restaurante,usuários enfrentam enfrentam dificuldades ao tentar inserir o endereço de entrega. \nAs mensagens de erro são confusas, e não há opção para revisar \nou editar facilmente as informações antes de concluir o pedido.\nQual heurística de usabilidade de Nielsen está sendo violada nesse cenário?',
+        correctHeuristicId: '5',
         options: [
-            { id: '2', text: 'Correspondência entre o Sistema e o Mundo Real' },
-            { id: '4', text: 'Consistência e Padrões' },
-            { id: '7', text: 'Flexibilidade e Eficiência de Uso' },
-            { id: '10', text: 'Ajuda e Documentação' }
+            { id: '5', text: 'Prevenção de erros' },
+            { id: '8', text: 'Estética e Design Minimalista' },
+            { id: '5', text: 'Reconhecimento em vez de memorização' },
+            
         ]
     },
+
+
+    
     {
-        company: 'Software de Edição de Imagens',
-        problemImage: 'https://via.placeholder.com/400x200/FFFF00/000000?text=Sem+Desfazer',
-        description: 'Não há uma opção de "Desfazer" para ações realizadas, forçando o usuário a refazer todo o trabalho se cometer um erro.',
-        correctHeuristicId: '3', // Controle e Liberdade do Usuário
+        company: 'restaurante',
+        problemImage: 'https://via.placeholder.com/400x200/0000FF/FFFFFF?text=Icones+Confusos',
+        description: 'Durante o pagamento em um app de restaurante, o usuário tenta inserir os dados do cartão, \nmas o teclado não aparece. \nNão há mensagem de erro, nem resposta do sistema, impedindo a conclusão da compra. \nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
+
+        correctHeuristicId: '1', 
         options: [
-            { id: '5', text: 'Prevenção de Erros' },
-            { id: '3', text: 'Controle e Liberdade do Usuário' },
-            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
-            { id: '1', text: 'Visibilidade do Status do Sistema' }
+            { id: '4', text: 'Consistência e padronização' },
+            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '6', text: 'Reconhecimento em vez de memorização' },
+           
         ]
     },
+
+
+    
     {
-        company: 'Rede Social',
-        problemImage: 'https://via.placeholder.com/400x200/FF00FF/FFFFFF?text=Bot%C3%B5es+Diferentes',
-        description: 'O botão de "Curtir" muda de cor e posição aleatoriamente em diferentes posts, causando confusão.',
-        correctHeuristicId: '4', // Consistência e Padrões
+        company: 'restaurante',
+        problemImage: 'https://via.placeholder.com/400x200/0000FF/FFFFFF?text=Icones+Confusos',
+        description: 'Um usuário solicita o reembolso de um pedido em um app de entrega de alimentos .Sem aviso prévio, o valor é devolvido automaticamente para a carteira interna do aplicativo, que só pode ser usada dentro da plataforma. \nO usuário não é informado no momento da solicitação e descobre depois, ao tentar usar o valor fora do app. \nExiste uma forma de desativar esse comportamento, mas ela está escondida em menus e não é oferecida como escolha inicial.\nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
+        correctHeuristicId: '3', 
         options: [
-            { id: '2', text: 'Correspondência entre o Sistema e o Mundo Real' },
-            { id: '4', text: 'Consistência e Padrões' },
-            { id: '6', text: 'Reconhecimento em vez de Recordação' },
-            { id: '8', text: 'Estética e Design Minimalista' }
+            { id: '3', text: 'Controle e liberdade do usuário' },
+            { id: '8', text: 'Estética e design minimalista' },
+            { id: '6', text: 'Reconhecimento em vez de memorização' },
+
+            
         ]
     },
-    {
-        company: 'Formulário de Cadastro',
-        problemImage: 'https://via.placeholder.com/400x200/00FFFF/000000?text=Campos+Sem+Valida%C3%A7%C3%A3o',
-        description: 'Ao preencher um formulário, o usuário só descobre que um campo obrigatório está vazio após tentar enviar, sem nenhuma validação em tempo real.',
-        correctHeuristicId: '5', // Prevenção de Erros
-        options: [
-            { id: '5', text: 'Prevenção de Erros' },
-            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
-            { id: '1', text: 'Visibilidade do Status do Sistema' },
-            { id: '3', text: 'Controle e Liberdade do Usuário' }
-        ]
-    }
+
+
+
 ];

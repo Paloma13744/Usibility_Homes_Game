@@ -83,7 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showQuiz(companyCard) {
-        currentProblem = usabilityProblems[Math.floor(Math.random() * usabilityProblems.length)];
+        const companyId = companyCard.id;
+        const companyProblems = usabilityProblems.filter(p => p.company === companyId);
+
+        if (companyProblems.length === 0) {
+            alert('Nenhum problema disponível para esta empresa.');
+            return;
+        }
+
+        currentProblem = companyProblems[Math.floor(Math.random() * companyProblems.length)];
+
 
         // Limpa o conteúdo anterior
         usabilityProblemDisplay.innerHTML = '';
