@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jogo Usability Homes</title>
+    <link rel="stylesheet" href="./style/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Quiz Usability Homes</h1>
+    </header>
+
+
+    <main class="game-layout">
+
+        <aside class="painel-temp">
+            <div class="score">
+                <p>Moedas: <span id="score">0</span></p>
+                <p>Tempo: <span id="time"></span></p>
+            </div>
+        </aside>
+
+
+        <!--Seção para os cards do quiz-->
+        <section class="game-container">
+            <div class="company-card" id="agencia"></div>
+            <div class="company-card" id="banco"></div>
+            <div class="company-card" id="e-commerce"></div>
+            <div class="company-card" id="escola"></div>
+            <div class="company-card" id="jogos"></div>
+            <div class="company-card" id="restaurante"></div>
+        </section>
+    </main>
+
+
+    <!--Modal para os problemas das empresas-->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Problemas de Usabilidade</h2>
+            <div id="usability-problem"> </div>
+            <p id="problem"></p>
+            <div id="quiz-options"></div>
+            <div id="quiz-time"></div>
+        </div>
+    </div>
+
+
+
+    <script src="./script/problems.js"></script>
+    <script src="./script/script.js"></script>
+</body>
+
+</html>
