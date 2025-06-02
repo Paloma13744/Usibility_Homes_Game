@@ -17,7 +17,7 @@ const usabilityProblems = [
         company: 'e-commerce',
         problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', // imagem de problema
         description: 'O cliente efetuou uma compra no site, mas não encontrou o seu produto na aba de pedidos.\nQual heurística de usabilidade o site pode utilizar para evitar que esse erro ocorra novamente?',
-        correctHeuristicId: '1', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
+        correctHeuristicId: '1', 
         options: [
             { id: '1', text: 'Visibilidade do Status do Sistema' },
             { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
@@ -26,34 +26,32 @@ const usabilityProblems = [
         ]
     },
 
-/*
-    {
-        company: 'e-commerce',
-        problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', // imagem de problema
-        description: 'O cliente efetuou uma compra no site, mas não encontrou o seu produto na aba de pedidos.\nQual heurística de usabilidade o site pode utilizar para evitar que esse erro ocorra novamente?',
-        correctHeuristicId: '1', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
-        options: [
-            { id: '1', text: 'Visibilidade do Status do Sistema' },
-            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
-            { id: '5', text: 'Prevenção de Erros' },
-           
-        ]
-    },
 
     {
         company: 'e-commerce',
-        problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', // imagem de problema
-        description: 'O cliente efetuou uma compra no site, mas não encontrou o seu produto na aba de pedidos.\nQual heurística de usabilidade o site pode utilizar para evitar que esse erro ocorra novamente?',
-        correctHeuristicId: '1', // Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros
+        problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', 
+        description: 'Vendedor percebeu que houve uma queda nos acessos do site após a mudança \nno layout do site para uma proposta que o diferenciasse dos concorrentes.A falta de qual \nheurística pode ser a razão para essa queda?',
+        correctHeuristicId: '4', 
         options: [
+            { id: '4', text: 'Consistência e padronização' },
             { id: '1', text: 'Visibilidade do Status do Sistema' },
-            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
-            { id: '5', text: 'Prevenção de Erros' },
+            { id: '7', text: 'Flexibilidade e Eficiência de Uso' },
            
         ]
     },
 
-    */
+    {
+        company: 'e-commerce',
+        problemImage: 'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Erro+404', 
+        description: 'Cliente fez uma avaliação negativa do site informando que não consegue retirar \nos produtos do carrinho e se recusa a fazer uma compra com itens que ele já desistiu de comprar. ',
+        correctHeuristicId: '3', 
+        options: [
+            { id: '3', text: 'Controle e Liberdade do Usuário' },
+            { id: '5', text: 'Prevenção de Erros' },
+            { id: '10', text: 'Ajuda e Documentação' },
+           
+        ]
+    },
 
 
 
@@ -61,7 +59,7 @@ const usabilityProblems = [
         company: 'banco',
         problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
         description: 'Após tocar no botão“Enviar PIX”, a tela mostra apenas um círculo girando com a palavra Processando… por mais de 40 segundos.  \nNão há barra de progresso, porcentagem, estimativa de tempo nem confirmação parcial (como “Etiqueta de envio criada”).',
-        correctHeuristicId: '1', // Visibilidade do Status do Sistema
+        correctHeuristicId: '1', 
         options: [
             { id: '1', text: 'Visibilidade do Status do Sistema' },
             { id: '2', text: 'Correspondência entre sistema e mundo real'},
@@ -149,6 +147,33 @@ const usabilityProblems = [
             
         ]
     },
+
+
+    {
+        company: 'agencia',
+        problemImage: 'https://via.placeholder.com/400x200/0000FF/FFFFFF?text=Icones+Confusos',
+        description: `Usuários frequentes, como consultores que voam toda semana na mesma rota,
+            são obrigados a percorrer sete telas idênticas em cada compra (origem/destino, datas, bagagem, documentos, faturamento etc.).
+            O site não oferece:
+            Botão “Repetir reserva anterior”;
+            Perfis salvos de passageiro;
+            Autopreenchimento de CPF ou programa de milhas;
+            Atalhos de teclado (Tab/Enter) para avançar.
+            Qual heurística está sendo violada?`,
+        correctHeuristicId: '7',
+        options: [
+            { id: '1', text: 'Visibilidade do Status do Sistema' },
+            { id: '7', text: 'Flexibilidade e Eficiência de Uso' },
+            { id: '5', text: 'Prevenção de Erros' }
+        ]
+    }
+
+
+
+
+
+
+
 
 
 

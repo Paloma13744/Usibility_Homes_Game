@@ -101,12 +101,12 @@ header {
     transform: translateY(-5px);
 }
 
-#agencia { background-image: url('../assets/agencia.png'); }
-#banco { background-image: url('../assets/banco.png'); }
-#e-commerce { background-image: url(''); }
-#escola { background-image: url('../assets/escola.png'); }
-#jogos { background-image: url(''); }
-#restaurante { background-image: url('../assets/restaurante.png'); }
+#agencia { background-image: url('../assets/cards/agencia.png'); }
+#banco { background-image: url('../assets/cards/banco.png'); }
+#e-commerce { background-image: url('../assets/cards/e-commerce.png'); }
+#escola { background-image: url('../assets/cards/escola.png'); }
+#jogos { background-image: url('../assets/cards/game.png'); }
+#restaurante { background-image: url('../assets/cards/restaurante.png'); }
 
 .alert-sinal {
     position: absolute;
