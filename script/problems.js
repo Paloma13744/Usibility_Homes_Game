@@ -57,7 +57,7 @@ const usabilityProblems = [
 
     {
         company: 'banco',
-        problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
+        problemImage: 'assets/problems/problema1_banco.png',
         description: 'Após tocar no botão“Enviar PIX”, a tela mostra apenas um círculo girando com a palavra Processando… por mais de 40 segundos.  \nNão há barra de progresso, porcentagem, estimativa de tempo nem confirmação parcial (como “Etiqueta de envio criada”).',
         correctHeuristicId: '1', 
         options: [
@@ -71,10 +71,10 @@ const usabilityProblems = [
 
     {
         company: 'banco',
-        problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
-        description: 'Para adicionar um novo destinatário, o app exige que o cliente digite o código numérico de quatro dígitos da agência (ex.: 3414),\n sem campo de busca pelo nome do banco nem lista suspensa. \nMuitos usuários fecham o app para procurar a informação em outro lugar.\n Qual heurística está sendo violada?',
+        problemImage: 'assets/problems/problema2_banco.png',
+        description: 'Para acessar a conta, o aplicativo exige que o usuário digite manualmente o código da agência (ex.: 3414), sem fornecer um filtro de busca, lista suspensa ou sugestão automática para encontrar a agência correta. \nComo resultado, muitos usuários precisam sair do app para procurar essa informação em outro lugar, o que prejudica a experiência Qual heurística está sendo violada?',
 
-        correctHeuristicId: '5', 
+        correctHeuristicId: '6', 
         options: [
             { id: '5', text: 'Prevenção de erros' },
             { id: '2', text: 'Correspondência entre sistema e mundo real' },
@@ -88,7 +88,7 @@ const usabilityProblems = [
 
     {
         company: 'banco',
-        problemImage: 'https://via.placeholder.com/400x200/00FF00/000000?text=Bot%C3%A3o+Invis%C3%ADvel',
+        problemImage: 'assets/problems/problema3_banco.png',
         description: 'Na tela inicial há três botões: TED, DOC e PIX. \nNenhum deles traz rótulo descritivo ou ícone que explique as diferenças (prazo, horário, tarifa). Usuários novatos confundem as opções e escolhem a errada. \n Qual heurística está sendo violada?.',
         correctHeuristicId: '2', 
         options: [
