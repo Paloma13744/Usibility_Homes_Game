@@ -25,6 +25,7 @@ const usabilityProblems = [
            
         ]
     },
+    
 
 
     {
@@ -50,6 +51,54 @@ const usabilityProblems = [
             { id: '5', text: 'Prevenção de Erros' },
             { id: '10', text: 'Ajuda e Documentação' },
            
+        ]
+    },
+
+
+    {
+        company: 'jogos',
+        problemImage: 'assets/problems/problema1_jogo.png',
+        description: 'A interface do jogo está tão cheia de informações, barras e botões que fica difícil focar no que realmente importa. \nQual heurística de usabilidade está sendo ignorada?',
+        correctHeuristicId: '8', 
+        options: [
+            { id: '4', text: 'Consistência e padrões' },
+            { id: '7', text: 'Flexibilidade e eficiência de uso '},
+            { id: '8', text: 'Estética e design minimalista' },
+            
+
+            
+        ]
+    },
+
+
+    {
+        company: 'jogos',
+        problemImage: 'assets/problems/problema2_jogo.png',
+        description: 'O sistema de runas apresenta diversos símbolos, informações ocultas e opções que nem sempre estão claras para jogadores novos. \nQual princípio de usabilidade ajudaria a resolver esse problema?',
+        correctHeuristicId: '6', 
+        options: [
+            { id: '6', text: 'Reconhecimento em vez de memorização ' },
+            { id: '3', text: 'Controle e liberdade para o usuário '},
+            { id: '8', text: 'Estética e design minimalista' },
+            
+
+            
+        ]
+    },
+
+
+    {
+        company: 'jogos',
+        problemImage: 'assets/problems/problema3_jogo.png',
+        description: 'Um jogador está tentando criar um circuito de Redstone, mas não há explicação no jogo sobre como ele funciona, como conectar, ou como usar os componentes. \nQual heurística de usabilidade está sendo quebrada aqui?',
+        correctHeuristicId: '10', 
+        options: [
+            { id: '3', text: 'Controle e liberdade do usuário' },
+            { id: '10', text: 'Ajuda e documentação'},
+            { id: '8', text: 'Estética e design minimalista' },
+            
+
+            
         ]
     },
 
@@ -103,51 +152,7 @@ const usabilityProblems = [
 
 
 
-    {
-        company: 'restaurante',
-        problemImage: 'assets/problems/problema1_restaurante.png',
-        description: 'No aplicativo de um restaurante,usuários enfrentam enfrentam dificuldades ao tentar inserir o endereço de entrega. \nAs mensagens de erro são confusas, e não há opção para revisar \nou editar facilmente as informações antes de concluir o pedido.\nQual heurística de usabilidade de Nielsen está sendo violada nesse cenário?',
-        correctHeuristicId: '5',
-        options: [
-            { id: '5', text: 'Prevenção de erros' },
-            { id: '8', text: 'Estética e Design Minimalista' },
-            { id: '6', text: 'Reconhecimento em vez de memorização' },
-            
-        ]
-    },
-
-
-    
-    {
-        company: 'restaurante',
-        problemImage: 'assets/problems/problema2_restaurante.png',
-        description: 'Durante o pagamento em um app de restaurante, o usuário tenta inserir os dados do cartão, \nmas o teclado não aparece. \nNão há mensagem de erro, nem resposta do sistema, impedindo a conclusão da compra. \nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
-
-        correctHeuristicId: '1', 
-        options: [
-            { id: '4', text: 'Consistência e padronização' },
-            { id: '1', text: 'Visibilidade do estado do sistema' },
-            { id: '6', text: 'Reconhecimento em vez de memorização' },
-           
-        ]
-    },
-
-
-    
-    {
-        company: 'restaurante',
-        problemImage: 'assets/problems/problema3_restaurante.png',
-        description: 'O usuário tenta acessar a área do Clube  do restaurante no aplicativo, mas encontra uma tela vermelha com a mensagem "Oops, tivemos um probleminha". Como resultado, ele não consegue utilizar os benefícios do clube e perde pontos.\nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
-        correctHeuristicId: '1', 
-        options: [
-            { id: '1', text: 'Visibilidade do estado do sistema' },
-            { id: '8', text: 'Estética e design minimalista' },
-            { id: '6', text: 'Consistência e padronização' },
-
-            
-        ]
-    },
-
+   
 
     {
         company: 'agencia',
@@ -217,15 +222,101 @@ const usabilityProblems = [
     },
 
 
+    {
+        company: 'escola',
+        problemImage: 'assets/problems/problema1_escola.png',
+        description: 'Em um sistema acadêmico online, o aluno quer acessar suas matérias e conteúdos das aulas. No entanto, essa função está escondida sob o menu “Turmas Virtuais”, que não deixa claro o que contém. O aluno não entende que ali estão os links para suas disciplinas, e acaba tendo dificuldade para navegar. Qual heurística de Nielsen está sendo violada?',
+        correctHeuristicId: '2', 
+        options: [
+            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '2', text: 'Compatibilidade com o mundo real' },
+            { id: '8', text: 'Estética e design minimalista' },
+
+            
+        ]
+    },
+
+    {
+        company: 'escola',
+        problemImage: 'assets/problems/problema2_escola.png',
+        description: 'No sistema da escola, o aluno acessa a área de "Cursos Promovidos". No entanto, aparecem disciplinas de outros cursos, turmas antigas e matérias que não fazem parte do seu plano atual. Isso confunde e dificulta a navegação.',
+        correctHeuristicId: '8', 
+        options: [
+            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '3', text: 'Controle e liberdade do usuário' },
+            { id: '8', text: 'Estética e design minimalista' },
+
+           
+
+            
+        ]
+    },
 
 
 
+    {
+        company: 'escola',
+        problemImage: 'assets/problems/problema3_escola.png',
+        description: 'Um estudante tenta se matricular online, mas o sistema exibe uma mensagem de erro: \n“Você está inapto para realizar a matrícula. Entre em contato com sua unidade escolar.”A mensagem não explica o motivo, nem oferece orientações para resolver o problema. \nQual heurística de Nielsen está sendo violada?',
+        correctHeuristicId: '9', 
+        options: [
+            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '9', text: 'Ajudar usuários a reconhecer, diagnosticar e recuperar-se de erros' },
+            { id: '4', text: 'Consistência e padronização' },
+            
+
+            
+        ]
+    },
 
 
+    {
+        company: 'restaurante',
+        problemImage: 'assets/problems/problema1_restaurante.png',
+        description: 'No aplicativo de um restaurante,usuários enfrentam enfrentam dificuldades ao tentar inserir o endereço de entrega. \nAs mensagens de erro são confusas, e não há opção para revisar \nou editar facilmente as informações antes de concluir o pedido.\nQual heurística de usabilidade de Nielsen está sendo violada nesse cenário?',
+        correctHeuristicId: '5',
+        options: [
+            { id: '5', text: 'Prevenção de erros' },
+            { id: '8', text: 'Estética e Design Minimalista' },
+            { id: '6', text: 'Reconhecimento em vez de memorização' },
+            
+        ]
+    },
 
 
- 
+    
+    {
+        company: 'restaurante',
+        problemImage: 'assets/problems/problema2_restaurante.png',
+        description: 'Durante o pagamento em um app de restaurante, o usuário tenta inserir os dados do cartão, \nmas o teclado não aparece. \nNão há mensagem de erro, nem resposta do sistema, impedindo a conclusão da compra. \nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
 
+        correctHeuristicId: '1', 
+        options: [
+            { id: '4', text: 'Consistência e padronização' },
+            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '6', text: 'Reconhecimento em vez de memorização' },
+           
+        ]
+    },
+
+
+    
+    {
+        company: 'restaurante',
+        problemImage: 'assets/problems/problema3_restaurante.png',
+        description: 'O usuário tenta acessar a área do Clube  do restaurante no aplicativo, mas encontra uma tela vermelha com a mensagem "Oops, tivemos um probleminha". Como resultado, ele não consegue utilizar os benefícios do clube e perde pontos.\nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
+        correctHeuristicId: '1', 
+        options: [
+            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '8', text: 'Estética e design minimalista' },
+            { id: '6', text: 'Consistência e padronização' },
+
+            
+        ]
+    },
+
+    
+    
 
 
 

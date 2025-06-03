@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let problemInterval;
     let currentProblem = null;
     let quizCountdown;
-    let quizTimeLimit = 15; // Tempo para responder cada quiz (segundos)
+    let quizTimeLimit = 20; // Tempo para responder cada quiz (segundos)
     let difficultyLevel = 1; // 1: Fácil, 2: Médio, 3: Difícil
 
     const problemDisplayImages = [
@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startProblemGeneration() {
-        // O intervalo entre os problemas pode variar com a dificuldade
         let interval = 8000; // 8 segundos para dificuldade fácil
         if (difficultyLevel === 2) interval = 5000; // 5 segundos para médio
         if (difficultyLevel === 3) interval = 3000; // 3 segundos para difícil
