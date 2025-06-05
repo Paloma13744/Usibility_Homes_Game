@@ -2,56 +2,73 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jogo Usability Homes</title>
-    <link rel="stylesheet" href="./style/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Jogo Usability Homes</title>
+    <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
     <header>
         <h1>Quiz Usability Homes</h1>
+        <nav>
+            <a href="./game.html">Iniciar Jogo</a>
+        </nav>
     </header>
 
+    <main class="tutorial-content">
+        <h2>Como Jogar Usability Homes</h2>
+        <p>Bem-vindo ao Usability Homes! Seu objetivo é atuar como um consultor de usabilidade, identificando problemas
+            em diversas empresas e aplicando as Heurísticas de Nielsen para resolvê-los.
+            Prepare-se para um desafio que testará sua rapidez e conhecimento!</p>
 
-    <main class="game-layout">
+        <h3>Visão Geral do Jogo:</h3>
+        <ul>
+            <li>Você verá 6 empresas diferentes na tela, representadas por prédios.</li>
+            <li>Uma empresa aleatória começará a sinalizar um problema de usabilidade.</li>
+            <li>Clique na empresa com o alerta para abrir um quiz.</li>
+            <li>No quiz, você verá uma imagem e uma descrição do problema, e deverá escolher a Heurística de Nielsen
+                correta em um tempo limitado.</li>
+            <li>Acerte para ganhar moedas (pontos) e avance para o próximo desafio!</li>
+        </ul>
 
-        <aside class="painel-temp">
-            <div class="score">
-                <p>Moedas: <span id="score">0</span></p>
-                <p>Tempo: <span id="time"></span></p>
-            </div>
-        </aside>
+        <hr>
 
+        <h3>Tempo e Progressão:</h3>
+        <p>O jogo se adapta ao seu progresso, aumentando a dificuldade e a pressão do tempo:</p>
+        <ul>
+            <li><strong>Fase Inicial (Perguntas 1-6):</strong> 30 segundos para responder a cada pergunta.</li>
+            <li><strong>Fase Intermediária (Perguntas 7-12):</strong> O tempo cai para 20 segundos por pergunta.</li>
+            <li><strong>Fase Final (Perguntas 13-18):</strong> Apenas 15 segundos por pergunta.</li>
+        </ul>
+        <p>Um novo quiz aparecerá a cada 30 segundos</p>
 
-        <!--Seção para os cards do quiz-->
-        <section class="game-container">
-            <div class="company-card" id="agencia"></div>
-            <div class="company-card" id="banco"></div>
-            <div class="company-card" id="e-commerce"></div>
-            <div class="company-card" id="escola"></div>
-            <div class="company-card" id="jogos"></div>
-            <div class="company-card" id="restaurante"></div>
-        </section>
+        <hr>
+
+        <h3>Sistema de Pontuação:</h3>
+        <p>Sua pontuação reflete sua precisão e agilidade:</p>
+        <ul>
+            <li><strong>Fase Inicial (Perguntas 1-6):</strong> Cada resposta correta rende <strong>5 moedas</strong>.
+            </li>
+            <li><strong>Fase Intermediária (Perguntas 7-12):</strong> Cada resposta correta vale <strong>10
+                    moedas</strong>.</li>
+            <li><strong>Fase Final (Perguntas 13-18):</strong> Cada resposta correta vale <strong>15 moedas</strong>.
+            </li>
+            <li><strong>Bônus por Velocidade:</strong> Responda rapidamente para ganhar moedas extras! Mais pontos para
+                respostas mais ágeis.</li>
+            <li><strong>Penalidade por Respostas Incorretas:</strong> Cada resposta errada resulta na perda de <strong>2
+                    moedas</strong>. Pense com cuidado antes de escolher!</li>
+        </ul>
+
+        <hr>
+
+        <h3>Fim do Jogo e Resultados:</h3>
+        <p>Após responder a todas as 18 perguntas, o jogo terminará e você verá sua pontuação total, junto com uma
+            mensagem personalizada sobre seu desempenho. Você poderá então escolher "Jogar Novamente" e se desafiar a
+            aprimorar suas habilidades em usabilidade!</p>
+
+        <p>Boa sorte e divirta-se resolvendo problemas de usabilidade!</p>
     </main>
-
-
-    <!--Modal para os problemas das empresas-->
-    <div id="quiz-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Problemas de Usabilidade</h2>
-            <div id="usability-problem"> </div>
-            <p id="problem"></p>
-            <div id="quiz-options"></div>
-            <div id="quiz-time"></div>
-        </div>
-    </div>
-
-
-
-    <script src="./script/problems.js"></script>
-    <script src="./script/script.js"></script>
 </body>
 
 </html>

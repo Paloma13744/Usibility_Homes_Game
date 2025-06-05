@@ -1,30 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     const companyCards = document.querySelectorAll('.company-card');
     const scoreDisplay = document.getElementById('score');
-    const gameTimerDisplay = document.getElementById('time');
+    const gameTimeDisplay = document.getElementById('game-time');
     const quizModal = document.getElementById('quiz-modal');
     const closeButton = document.querySelector('.close-button');
-    const usabilityProblemDisplay = document.getElementById('usability-problem');
-    const problemDescription = document.getElementById('problem');
+    const usabilityProblemImage = document.getElementById('usability-problem-image');
+    const problemDescription = document.getElementById('problem-description');
     const quizOptions = document.getElementById('quiz-options');
-    const quizTimerDisplay = document.getElementById('quiz-timer');
+    const quizTimerDisplay = document.querySelector('#quiz-timer span');
+    const endGameModal = document.getElementById('end-game-modal');
+    const finalScoreDisplay = document.getElementById('final-score');
+    const feedbackMessage = document.getElementById('feedback-message');
+    const playAgainButton = document.getElementById('play-again-button');
+    const startGameModal = document.getElementById('start-game-modal');
+    const startButton = document.getElementById('start-button');
+    const endGameButton = document.getElementById('end-game-button');
+    const exitButton = document.getElementById('exit');
 
     let score = 0;
-    let gameTime = 0; // Tempo total do jogo
-    let problemInterval;
+    let gameTime = 0;
+    let gameInterval;
+    let quizInterval;
     let currentProblem = null;
-    let quizCountdown;
-    let quizTimeLimit = 20; // Tempo para responder cada quiz (segundos)
-    let difficultyLevel = 1; // 1: Fácil, 2: Médio, 3: Difícil
+    let currentCompanyCard = null;
+    let problemGenerationInterval = 20000; // 20 segundos para um novo problema surgir
+    let problemGenerationTimer;
+    let answeredQuestionsCount = 0;
+    let quizActive = false;
 
-    const problemDisplayImages = [
-        'https://via.placeholder.com/400x200/FF0000/FFFFFF?text=Problema+de+Interface+1',
-        'https://via.placeholder.com/400x200/00FF00/000000?text=Problema+de+Interface+2',
-        'https://via.placeholder.com/400x200/0000FF/FFFFFF?text=Problema+de+Interface+3',
-        'https://via.placeholder.com/400x200/FFFF00/000000?text=Problema+de+Interface+4',
-        'https://via.placeholder.com/400x200/FF00FF/FFFFFF?text=Problema+de+Interface+5',
-        'https://via.placeholder.com/400x200/00FFFF/000000?text=Problema+de+Interface+6',
-    ];
+    //Configurações fase: Inicial,Intermediária e Dificil
+    const pointsPerPhase = [5, 10, 15];
+    const timeLimitsPerPhase = [30, 20, 15]; // Tempo para responder (Inicial, Intermediário, Final)
+    const penaltyPerIncorrectAnswer = 4; // Perde 4 moedas se não responder a tempo
 
     function updateScore(amount) {
         score += amount;
@@ -32,27 +39,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startGameTimer() {
-        setInterval(() => {
+        gameInterval = setInterval(() => {
             gameTime++;
             const minutes = Math.floor(gameTime / 60);
             const seconds = gameTime % 60;
-            gameTimerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            gameTimeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }, 1000);
     }
 
+    function stopGameTimer() {
+        clearInterval(gameInterval);
+        gameInterval = null; // Garante que o intervalo é zerado
+    }
+
     function getRandomCompany() {
-        const activeCompanies = Array.from(companyCards).filter(card => !card.classList.contains('has-alert'));
-        if (activeCompanies.length === 0) return null;
+        const activeCompanies = Array.from(companyCards).filter(card => !card.classList.contains('has-alert') && !card.classList.contains('empty-card'));
+
+        if (activeCompanies.length === 0) {
+            console.log("Todas as empresas estão com alertas ou não são jogáveis.");
+            return null;
+        }
+
         const randomIndex = Math.floor(Math.random() * activeCompanies.length);
         return activeCompanies[randomIndex];
     }
 
-    function createAlertSignal(companyCard) {
+    function createAlertSignal(companyCard) {  // Cria o alerta de problema na empresa
+        if (companyCard.querySelector('.alert-sinal')) {
+            return;
+        }
         const alertDiv = document.createElement('div');
         alertDiv.classList.add('alert-sinal');
         alertDiv.textContent = '!';
         companyCard.appendChild(alertDiv);
         companyCard.classList.add('has-alert');
+        companyCard.classList.add('pulsating');
     }
 
     function removeAlertSignal(companyCard) {
@@ -60,84 +81,129 @@ document.addEventListener('DOMContentLoaded', () => {
         if (alertDiv) {
             companyCard.removeChild(alertDiv);
             companyCard.classList.remove('has-alert');
+            companyCard.classList.remove('pulsating');
         }
+    }
+
+    function determinePhase() {   // Determina a fase do jogo: Inicial,Intermediária ou Final
+        if (answeredQuestionsCount < 6) return 0;
+        if (answeredQuestionsCount < 12) return 1;
+        return 2;
+    }
+
+    function getQuizConfig() {
+        const phase = determinePhase();
+        return {
+            points: pointsPerPhase[phase],
+            timeLimit: timeLimitsPerPhase[phase]
+        };
     }
 
     function generateProblem() {
+        if (quizActive) {  // Só gera problema quando não há nenhum quiz ativo no momento
+            console.log("Quiz já está ativo, aguardando resposta...");
+            return;
+        }
+
         const targetCompany = getRandomCompany();
-        if (targetCompany && !quizModal.style.display || quizModal.style.display === 'none') { // Só gera problema se não houver modal aberto
+        if (targetCompany) {
             createAlertSignal(targetCompany);
+        } else {
+            console.log("Nenhuma empresa disponível para gerar um novo problema ou todas já têm alerta.");
         }
     }
 
-    function startProblemGeneration() {
-        let interval = 8000; // 8 segundos para dificuldade fácil
-        if (difficultyLevel === 2) interval = 5000; // 5 segundos para médio
-        if (difficultyLevel === 3) interval = 3000; // 3 segundos para difícil
+    function startProblemGenerationTimer() {
+        // Limpa o timer anterior para evitar múltiplos timers
+        stopProblemGenerationTimer();
+        problemGenerationTimer = setInterval(generateProblem, problemGenerationInterval);
+    }
 
-        if (problemInterval) {
-            clearInterval(problemInterval); // Limpa o intervalo anterior se houver
-        }
-        problemInterval = setInterval(generateProblem, interval);
+    function stopProblemGenerationTimer() {
+        clearInterval(problemGenerationTimer);
+        problemGenerationTimer = null;
     }
 
     function showQuiz(companyCard) {
+        stopProblemGenerationTimer(); // Pausa a geração de novos problemas enquanto o quiz está ativo
+        quizActive = true;
+        currentCompanyCard = companyCard;
         const companyId = companyCard.id;
         const companyProblems = usabilityProblems.filter(p => p.company === companyId);
 
         if (companyProblems.length === 0) {
             alert('Nenhum problema disponível para esta empresa.');
+            startProblemGenerationTimer();
+            quizActive = false;
             return;
         }
 
-        currentProblem = companyProblems[Math.floor(Math.random() * companyProblems.length)];
+        let problemIndex;
+        // Garante que o mesmo problema não seja mostrado seguidamente se a empresa tiver mais de um problema
+        const availableProblemsForCompany = companyProblems.filter(p => !p.shownRecently);
+        if (availableProblemsForCompany.length > 0) {
+            problemIndex = Math.floor(Math.random() * availableProblemsForCompany.length);
+            currentProblem = availableProblemsForCompany[problemIndex];
+        } else {
+            // Se todos os problemas da empresa foram mostrados recentemente, escolhe um aleatoriamente
+            problemIndex = Math.floor(Math.random() * companyProblems.length);
+            currentProblem = companyProblems[problemIndex];
+        }
 
+        currentProblem.shownRecently = true;
+        setTimeout(() => {
+            currentProblem.shownRecently = false;
+        }, problemGenerationInterval * 2);
 
-        // Limpa o conteúdo anterior
-        usabilityProblemDisplay.innerHTML = '';
+        usabilityProblemImage.src = '';
         quizOptions.innerHTML = '';
 
-        // Exibe a imagem do problema (se houver)
         if (currentProblem.problemImage) {
-            const img = document.createElement('img');
-            img.src = currentProblem.problemImage;
-            img.alt = 'Problema de Usabilidade';
-            usabilityProblemDisplay.appendChild(img);
+            usabilityProblemImage.src = currentProblem.problemImage;
         } else {
-            // Caso não tenha imagem, pode exibir uma mensagem ou estilizar melhor
-            usabilityProblemDisplay.textContent = 'Nenhuma imagem de problema disponível.';
+            usabilityProblemImage.src = 'https://via.placeholder.com/400x200/CCCCCC/888888?text=Sem+Imagem';
         }
 
         problemDescription.textContent = currentProblem.description;
 
-        // Cria os botões de opção
+        const { timeLimit } = getQuizConfig();
+
         currentProblem.options.forEach(option => {
             const button = document.createElement('button');
             button.textContent = option.text;
             button.dataset.optionId = option.id;
-            button.addEventListener('click', () => checkAnswer(option.id, companyCard));
+            button.addEventListener('click', () => checkAnswer(option.id, companyCard, timeLimit));
             quizOptions.appendChild(button);
         });
 
-        quizModal.style.display = 'flex'; // Exibe o modal
+        quizModal.style.display = 'flex';
 
-        // Inicia o cronômetro do quiz
-        let timeLeft = quizTimeLimit;
-        quizTimerDisplay.textContent = `Tempo restante: ${timeLeft}s`;
-        clearInterval(quizCountdown); // Garante que não há cronômetros duplicados
+        let timeLeft = timeLimit;
+        quizTimerDisplay.textContent = timeLeft;
+        clearInterval(quizInterval);
 
-        quizCountdown = setInterval(() => {
+        quizInterval = setInterval(() => {
             timeLeft--;
-            quizTimerDisplay.textContent = `Tempo restante: ${timeLeft}s`;
+            quizTimerDisplay.textContent = timeLeft;
             if (timeLeft <= 0) {
-                clearInterval(quizCountdown);
+                clearInterval(quizInterval);
                 handleQuizTimeout(companyCard);
             }
         }, 1000);
     }
 
-    function checkAnswer(selectedOptionId, companyCard) {
-        clearInterval(quizCountdown); // Para o cronômetro do quiz
+    function calculateSpeedBonus(initialTimeLimit, timeTaken) {  // Bônus para o jogador
+        // timeTaken é o tempo que o jogador levou para responder
+        // timeRemaining é o tempo que restava no cronômetro
+        const timeRemaining = initialTimeLimit - timeTaken;
+
+        if (timeRemaining >= initialTimeLimit - 5) return 3; // Respondeu nos primeiros 5 segundos
+        if (timeRemaining >= initialTimeLimit - 10) return 2; // Respondeu nos próximos 5 segundos
+        return 0; // Sem bônus se demorar mais de 10 segundos
+    }
+
+    function checkAnswer(selectedOptionId, companyCard, initialTimeLimit) {
+        clearInterval(quizInterval);
 
         const buttons = quizOptions.querySelectorAll('button');
         buttons.forEach(button => {
@@ -146,64 +212,157 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (button.dataset.optionId === selectedOptionId) {
                 button.classList.add('incorrect');
             }
-            button.disabled = true; // Desabilita os botões após a resposta
+            button.disabled = true;
         });
 
+        const { points } = getQuizConfig();
+        // O tempo que levou para responder é a diferença entre o tempo inicial e o tempo que restava
+        const timeTaken = initialTimeLimit - parseInt(quizTimerDisplay.textContent);
+
         if (selectedOptionId === currentProblem.correctHeuristicId) {
-            updateScore(100 * difficultyLevel); // Ganha mais pontos em dificuldades maiores
-            alert('Parabéns! Resposta correta!');
+            let pointsGained = points;
+            const speedBonus = calculateSpeedBonus(initialTimeLimit, timeTaken);
+            pointsGained += speedBonus;
+            updateScore(pointsGained);
+            alert(`Parabéns! Resposta correta! Você ganhou ${pointsGained} moedas.`);
         } else {
-            updateScore(-50 * difficultyLevel); // Perde mais pontos em dificuldades maiores
-            alert('Ops! Resposta incorreta.');
+            updateScore(-penaltyPerIncorrectAnswer);
+            alert(`Ops! Resposta incorreta. Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
         }
 
+        answeredQuestionsCount++;
+
         setTimeout(() => {
-            quizModal.style.display = 'none'; // Esconde o modal
-            removeAlertSignal(companyCard); // Remove o alerta da empresa
-        }, 1500); // Dá um tempo para o usuário ver o feedback
+            quizModal.style.display = 'none';
+            removeAlertSignal(companyCard);
+            quizActive = false;
+
+            if (answeredQuestionsCount >= 18) {
+                endGame();
+            } else {
+                startProblemGenerationTimer(); // Reinicia o timer para gerar próximo problema
+            }
+        }, 1500);
     }
 
     function handleQuizTimeout(companyCard) {
+        clearInterval(quizInterval);
         alert('Tempo esgotado! Você perdeu dinheiro.');
-        updateScore(-50 * difficultyLevel);
+        updateScore(-penaltyPerIncorrectAnswer); // Penalidade por não responder a tempo
         quizModal.style.display = 'none';
         removeAlertSignal(companyCard);
+        quizActive = false;
+        answeredQuestionsCount++;
+
+        if (answeredQuestionsCount >= 18) {
+            endGame();
+        } else {
+            startProblemGenerationTimer();
+        }
     }
 
-    // Event Listeners para os cartões das empresas
+    function endGame() {  // Mostra quantos pontos o jogador tem e uma frase motivacional.
+        stopGameTimer();
+        stopProblemGenerationTimer();
+        clearInterval(quizInterval); // Garante que o quizInterval seja limpo
+        quizModal.style.display = 'none'; // Garante que o modal do quiz esteja fechado
+
+        finalScoreDisplay.textContent = score;
+
+        let message = "";
+        if (score >= 150) {
+            message = "Parabéns! Você é um expert em estratégia de negócios!";
+        } else if (score >= 90) {
+            message = "Excelente trabalho! Você está no caminho certo para o sucesso nos negócios!";
+        } else if (score >= 40) {
+            message = "Você está quase lá! Continue praticando para dominar os desafios empresariais!";
+        } else {
+            message = "Interessante! O mundo dos negócios está cheio de aprendizados, continue explorando!";
+        }
+        feedbackMessage.textContent = message;
+
+        endGameModal.style.display = 'flex';
+    }
+
+    function resetGame() {
+        score = 0;
+        gameTime = 0;
+        answeredQuestionsCount = 0;
+        quizActive = false;
+        scoreDisplay.textContent = score;
+        gameTimeDisplay.textContent = "00:00";
+
+        // Reinicia a propriedade shownRecently para todos os problemas
+        usabilityProblems.forEach(problem => problem.shownRecently = false);
+
+        companyCards.forEach(card => removeAlertSignal(card));
+
+        quizModal.style.display = 'none';
+        endGameModal.style.display = 'none';
+        startGameModal.style.display = 'none'; // Garante que o modal de início seja escondido
+
+        stopGameTimer(); // Para todos os timers
+        stopProblemGenerationTimer();
+        clearInterval(quizInterval); // Limpa o timer do quiz também
+
+
+    }
+
     companyCards.forEach(card => {
         card.addEventListener('click', () => {
             if (card.classList.contains('has-alert')) {
                 showQuiz(card);
-            } else {
+            } else if (!card.classList.contains('empty-card')) { // Evita alerta para cards vazios
                 alert('Essa empresa não tem problemas de usabilidade agora!');
             }
         });
     });
 
-    // Event Listener para fechar o modal
+
     closeButton.addEventListener('click', () => {
-        clearInterval(quizCountdown);
+        clearInterval(quizInterval); // Apenas para o cronômetro do quiz
         quizModal.style.display = 'none';
-        // Se o quiz foi fechado sem resposta, penaliza o jogador
-        if (currentProblem) {
-            updateScore(-20 * difficultyLevel); // Penalidade menor por fechar
-            alert('Quiz fechado sem resposta. Você perdeu um pouco de dinheiro.');
+        quizActive = false;
+        // Se um quiz estava ativo e foi fechado, remove o alerta da empresa
+        if (currentCompanyCard && currentCompanyCard.classList.contains('has-alert')) {
+            removeAlertSignal(currentCompanyCard);
+        }
+        // Retoma a geração de problemas se o jogo não terminou
+        if (answeredQuestionsCount < 18) {
+            startProblemGenerationTimer();
         }
     });
 
-    // Função para definir o nível de dificuldade (ainda precisa de interface para o usuário)
-    function setDifficulty(level) {
-        difficultyLevel = level;
-        console.log(`Dificuldade definida para: ${difficultyLevel}`);
-        // Reinicia a geração de problemas com o novo intervalo
-        startProblemGeneration();
-        if (difficultyLevel === 1) quizTimeLimit = 20;
-        else if (difficultyLevel === 2) quizTimeLimit = 15;
-        else if (difficultyLevel === 3) quizTimeLimit = 10;
-    }
+    // "Jogar Novamente"
+    playAgainButton.addEventListener('click', () => {
+        resetGame();
+        startGameTimer(); // Inicia os timers
+        startProblemGenerationTimer();
+    });
 
-    // Iniciar o jogo
-    startGameTimer();
-    setDifficulty(1); // Começa no nível fácil, ou pode ter um seletor inicial
+    //  "Iniciar Jogo"
+    startButton.addEventListener('click', () => {
+        startGameModal.style.display = 'none'; // Esconde o modal de início
+        startGameTimer(); // Inicia o timer do jogo
+        startProblemGenerationTimer(); // Inicia a geração de problemas
+    });
+
+    // Finaliza o jogo (ao clicar no botão)
+    endGameButton.addEventListener('click', () => {
+        if (confirm("Tem certeza que deseja finalizar o jogo? Sua pontuação atual será registrada.")) {
+            endGame();
+        }
+    });
+
+
+
+
+    exitButton.addEventListener('click', () => {
+    if (confirm("Deseja realmente sair do jogo? Seu progresso será perdido.")) {
+        window.location.href = './index.html'; 
+    }
+});
+
+
+    startGameModal.style.display = 'flex';
 });

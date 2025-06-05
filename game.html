@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jogo Usability Homes</title>
+    <link rel="stylesheet" href="./style/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Quiz Usability Homes</h1>
+        <nav>
+            <a href="./index.html">Tutorial</a>
+            <button id="end-game-button" class="header-button">Finalizar Jogo</button>
+        </nav>
+    </header>
+
+    <main class="game-layout">
+        <aside class="painel-temp">
+            <div class="score">
+                <p>Moedas: <span id="score">0</span></p>
+                <p>Tempo de Jogo: <span id="game-time">00:00</span></p>
+            </div>
+        </aside>
+
+        <section class="game-container">
+            <div class="company-card" id="agencia"></div>
+            <div class="company-card" id="banco"></div>
+            <div class="company-card" id="e-commerce"></div>
+            <div class="company-card" id="escola"></div>
+            <div class="company-card" id="jogos"></div>
+            <div class="company-card" id="restaurante"></div>
+            
+        </section>
+    </main>
+
+    <div id="start-game-modal" class="modal">
+        <div class="modal-content">
+            <h2>Bem-vindo ao Usability Homes!</h2>
+            <p>Seu desafio é identificar problemas de usabilidade e aplicar as Heurísticas de Nielsen.</p>
+            <button id="start-button">Iniciar Jogo</button>
+        </div>
+    </div>
+
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Problema de Usabilidade Detectado!</h2>
+            <div id="usability-problem-image-container">
+                <img id="usability-problem-image" src="" alt="Problema de Usabilidade">
+            </div>
+            <p id="problem-description"></p>
+            <div id="quiz-options"></div>
+            <p id="quiz-timer">Tempo restante: <span></span>s</p>
+        </div>
+    </div>
+
+    <div id="end-game-modal" class="modal">
+        <div class="modal-content">
+            <h2>Fim de Jogo!</h2>
+            <p>Sua pontuação final: <span id="final-score">0</span> moedas</p>
+            <p id="feedback-message"></p>
+            <button id="play-again-button">Jogar Novamente</button>
+            <button id="exit">sair</button>
+        </div>
+    </div>
+
+    <script src="./script/problems.js"></script>
+    <script src="./script/script.js"></script>
+</body>
+
+</html>
