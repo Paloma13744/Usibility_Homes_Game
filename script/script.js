@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let quizInterval;
     let currentProblem = null;
     let currentCompanyCard = null;
-    let problemGenerationInterval = 20000; // 20 segundos para um novo problema surgir
+    let problemGenerationInterval = 10000; // 10 segundos para um novo problema surgir
     let problemGenerationTimer;
     let answeredQuestionsCount = 0;
     let quizActive = false;
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startGameTimer() {
+        stopGameTimer();
         gameInterval = setInterval(() => {
             gameTime++;
             const minutes = Math.floor(gameTime / 60);
@@ -114,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startProblemGenerationTimer() {
-        // Limpa o timer anterior para evitar múltiplos timers
         stopProblemGenerationTimer();
         problemGenerationTimer = setInterval(generateProblem, problemGenerationInterval);
     }
@@ -197,9 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // timeRemaining é o tempo que restava no cronômetro
         const timeRemaining = initialTimeLimit - timeTaken;
 
-        if (timeRemaining >= initialTimeLimit - 5) return 3; // Respondeu nos primeiros 5 segundos
-        if (timeRemaining >= initialTimeLimit - 10) return 2; // Respondeu nos próximos 5 segundos
-        return 0; // Sem bônus se demorar mais de 10 segundos
+        if (timeRemaining >= initialTimeLimit - 5) return 3;
+        if (timeRemaining >= initialTimeLimit - 10) return 2;
+        return 0;
     }
 
     function checkAnswer(selectedOptionId, companyCard, initialTimeLimit) {
@@ -270,11 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
         finalScoreDisplay.textContent = score;
 
         let message = "";
-        if (score >= 150) {
+        if (score >= 108 && score <= 234) {
             message = "Parabéns! Você é um expert em estratégia de negócios!";
-        } else if (score >= 90) {
+        } else if (score >= 78) {
             message = "Excelente trabalho! Você está no caminho certo para o sucesso nos negócios!";
-        } else if (score >= 40) {
+        } else if (score >= 48) {
             message = "Você está quase lá! Continue praticando para dominar os desafios empresariais!";
         } else {
             message = "Interessante! O mundo dos negócios está cheio de aprendizados, continue explorando!";
@@ -299,11 +299,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         quizModal.style.display = 'none';
         endGameModal.style.display = 'none';
-        startGameModal.style.display = 'none'; // Garante que o modal de início seja escondido
 
-        stopGameTimer(); // Para todos os timers
+        stopGameTimer();
         stopProblemGenerationTimer();
-        clearInterval(quizInterval); // Limpa o timer do quiz também
+        clearInterval(quizInterval);
 
 
     }
@@ -336,14 +335,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // "Jogar Novamente"
     playAgainButton.addEventListener('click', () => {
         resetGame();
-        startGameTimer(); // Inicia os timers
+        startGameTimer();
         startProblemGenerationTimer();
     });
 
     //  "Iniciar Jogo"
     startButton.addEventListener('click', () => {
-        startGameModal.style.display = 'none'; // Esconde o modal de início
-        startGameTimer(); // Inicia o timer do jogo
+        startGameTimer();
         startProblemGenerationTimer(); // Inicia a geração de problemas
     });
 
@@ -356,13 +354,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
     exitButton.addEventListener('click', () => {
-    if (confirm("Deseja realmente sair do jogo? Seu progresso será perdido.")) {
-        window.location.href = './index.html'; 
-    }
-});
+        if (confirm("Deseja realmente sair do jogo? Seu progresso será perdido.")) {
+            window.location.href = './index.html';
+        }
+    });
 
 
-    startGameModal.style.display = 'flex';
+
 });

@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+
 }
 
 header {
@@ -23,13 +24,27 @@ header {
     align-items: center;
 }
 
+header img{
+    width: 70px;
+    height: 60px;
+
+}
+.logo-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+
 header h1 {
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     font-size: 20px;
     letter-spacing: 1px;
 }
 
 header nav {
+    font-family: 'Roboto', sans-serif;
     display: flex;
     gap: 15px;
     align-items: center;
@@ -37,6 +52,7 @@ header nav {
 
 header nav a,
 .header-button {
+    font-family: 'Roboto', sans-serif;
     color: black;
     text-decoration: none;
     font-weight: bold;
@@ -46,7 +62,8 @@ header nav a,
     border: none;
     cursor: pointer;
     background-color: white;
-    font-size: 1rem;
+    font-size: 16px;
+    width: 100px;
 }
 
 header nav a:hover,
@@ -57,13 +74,14 @@ header nav a:hover,
 
 main.game-layout {
     display: flex;
-    flex-grow: 1;
-    padding: 30px;
-    gap: 30px;
+    padding: 80px;
     align-items: flex-start;
+
 }
 
 aside.painel-temp {
+    width: 90%;
+    max-width: 320px;
     background-color: #ffffff;
     padding: 25px;
     border-radius: 10px;
@@ -74,15 +92,14 @@ aside.painel-temp {
 
 .score p {
     margin: 0.7rem 0;
-    font-size: 1.2rem;
+    font-size: 20px;
     font-weight: bold;
-    color: #555;
+    color: black;
 }
 
 .score span {
     color: #2980b9;
-    /* Azul vibrante */
-    font-size: 1.8rem;
+    font-size: 25px;
     display: block;
     margin-top: 5px;
 }
@@ -90,15 +107,12 @@ aside.painel-temp {
 .game-container {
     flex-grow: 1;
     display: grid;
-    /* Grid de 3 colunas, com espaçamento */
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     justify-content: center;
     align-items: center;
     max-width: 900px;
-    /* Limita a largura para melhor visualização do 3x3 */
     margin: 0 auto;
-    /* Centraliza o grid */
 }
 
 .company-card {
@@ -106,7 +120,7 @@ aside.painel-temp {
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     height: 200px;
-    /* Altura fixa para os cards */
+    width: 280px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,10 +135,10 @@ aside.painel-temp {
     background-position: center;
     background-repeat: no-repeat;
     border: 2px solid transparent;
-    /* Adiciona uma borda transparente para destaque */
+
 }
 
-/* Estilos para os cards vazios, se houver */
+
 .company-card.empty-card {
     background-color: #f0f4f7;
     cursor: default;
@@ -138,7 +152,6 @@ aside.painel-temp {
 }
 
 
-/* Imagens para os cards das empresas (exemplo) */
 #agencia {
     background-image: url(../assets/cards/agencia.png);
 }
@@ -176,7 +189,6 @@ aside.painel-temp {
     top: 15px;
     right: 15px;
     background-color: #e74c3c;
-    /* Vermelho */
     color: white;
     border-radius: 50%;
     width: 35px;
@@ -191,7 +203,7 @@ aside.painel-temp {
     border: 3px solid white;
 }
 
-/* Efeito de pulsação */
+
 @keyframes pulse {
     from {
         transform: scale(1);
@@ -204,7 +216,6 @@ aside.painel-temp {
     }
 }
 
-/* Modal base */
 .modal {
     display: none;
     position: fixed;
@@ -232,11 +243,10 @@ aside.painel-temp {
 .modal-content {
     background-color: #fefefe;
     padding: 20px;
-    /* Reduzi ainda mais o padding */
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     width: 90%;
-    max-width: 450px;
+    max-width: 700px;
     position: relative;
     text-align: center;
     animation: slideIn 0.4s ease-out;
@@ -259,11 +269,8 @@ aside.painel-temp {
     color: #aaa;
     position: absolute;
     top: 8px;
-    /* Ajustei a posição */
     right: 12px;
-    /* Ajustei a posição */
     font-size: 24px;
-    /* Diminuí a fonte */
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
@@ -277,7 +284,6 @@ aside.painel-temp {
 
 #usability-problem-image-container {
     margin-bottom: 15px;
-    /* Reduzi a margem */
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
@@ -291,14 +297,11 @@ aside.painel-temp {
 }
 
 #problem-description {
-    font-size: 1rem;
-    /* Diminuí a fonte */
-    margin-bottom: 18px;
-    /* Reduzi a margem */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin-bottom: 15px;
     line-height: 1.4;
-    /* Ajustei a altura da linha */
-    font-weight: 500;
-    color: #444;
+    color: black;
 }
 
 #quiz-options {
@@ -309,6 +312,7 @@ aside.painel-temp {
 }
 
 #quiz-options button {
+    font-family: 'Roboto', sans-serif;
     background-color: #3498db;
     color: white;
     border: none;
@@ -362,10 +366,11 @@ aside.painel-temp {
 }
 
 #feedback-message {
-    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
     margin-bottom: 20px;
     line-height: 1.5;
-    color: #555;
+    color: black;
 }
 
 #play-again-button,
@@ -382,6 +387,7 @@ aside.painel-temp {
 }
 
 #exit {
+    font-family: 'Roboto', sans-serif;
     background-color: #e74c3c;
     color: white;
     border: none;
@@ -404,122 +410,121 @@ aside.painel-temp {
     background-color: #229a56;
     transform: translateY(-2px);
 }
+#end-game-button {
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    color: white;
+    background-color: #ea4435ee;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
 
-/* Estilos para o tutorial */
+
+#end-game-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.footer-info {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #734e89d9;
+    color: white;
+    padding: 10px 30px;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.footer-info h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.footer-info p {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 1000px;
+    margin: 5px 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.start-wrapper {
+    width: 220px;
+    font-size: 15px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.start-wrapper button {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
 .tutorial-content {
-    max-width: 800px;
+    max-width: 900px;
     margin: 20px auto;
     padding: 30px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     line-height: 1.7;
-    font-size: 1.1rem;
+    font-size: 16px;
+    color: black;
 }
 
-.tutorial-content h2,
 .tutorial-content h3 {
+    font-family: 'Roboto', sans-serif;
     color: #2c3e50;
     border-bottom: 2px solid #eee;
-    padding-bottom: 12px;
-    margin-top: 35px;
+    padding-bottom: 15px;
+    margin-top: 15px;
     font-weight: bold;
 }
 
+.tutorial-content p {
+    margin-bottom: 25px;
+    font-family: 'Roboto', sans-serif;
+    color: black;
+}
+
+
 .tutorial-content ul {
-    list-style-type: '👉 ';
-    margin-left: 20px;
+    list-style-type: none;
+    margin-left: 0;
     padding-left: 0;
 }
 
 .tutorial-content ul li {
-    margin-bottom: 12px;
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 28px; 
+    font-family: 'Roboto', sans-serif;
 }
 
-.tutorial-content hr {
-    border: 0;
-    border-top: 1px dashed #ccc;
-    margin: 35px 0;
+.tutorial-content ul li::before {
+    content: "➤";
+    color: purple;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: bold;
 }
 
-/* Responsividade */
-@media (max-width: 992px) {
-    .game-container {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 600px;
-    }
-
-    .modal-content {
-        max-width: 380px;
-    }
-}
-
-@media (max-width: 768px) {
-    main.game-layout {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px;
-        gap: 20px;
-    }
-
-    aside.painel-temp {
-        min-width: unset;
-        width: 100%;
-        margin-bottom: 15px;
-    }
-
-    .game-container {
-        grid-template-columns: 1fr;
-        max-width: 400px;
-    }
-
-    header {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 10px;
-    }
-
-    header h1 {
-        font-size: 1.6rem;
-    }
-
-    header nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    header nav a,
-    .header-button {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    .modal-content {
-        width: 95%;
-        padding: 15px;
-        max-width: 350px;
-    }
-
-    #problem-description {
-        font-size: 0.9rem;
-    }
-
-    #quiz-options button {
-        padding: 8px 12px;
-        font-size: 0.85rem;
-    }
-
-    #final-score {
-        font-size: 2rem;
-    }
-
-    #feedback-message {
-        font-size: 0.95rem;
-    }
-
-    #play-again-button,
-    #start-button {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-}

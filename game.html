@@ -10,20 +10,35 @@
 
 <body>
     <header>
-        <h1>Quiz Usability Homes</h1>
+        <div class="logo-titulo">
+            <img src="./assets/cards/logo.png" alt="Logo">
+            <h1>Quiz Usability Homes</h1>
+        </div>
         <nav>
             <a href="./index.html">Tutorial</a>
-            <button id="end-game-button" class="header-button">Finalizar Jogo</button>
         </nav>
     </header>
 
     <main class="game-layout">
-        <aside class="painel-temp">
-            <div class="score">
-                <p>Moedas: <span id="score">0</span></p>
-                <p>Tempo de Jogo: <span id="game-time">00:00</span></p>
+        <div class="sidebar-column">
+            <aside class="painel-temp">
+                <div class="score">
+                    <p>Moedas: <span id="score">0</span></p>
+                    <p>Tempo de Jogo: <span id="game-time">00:00</span></p>
+                </div>
+            </aside>
+
+            <div class="start-wrapper">
+                <button id="start-button">Iniciar Jogo</button>
             </div>
-        </aside>
+
+            <div class="start-wrapper">
+                <button id="end-game-button" class="header-button">Finalizar Jogo</button>
+            </div>
+
+        </div>
+
+
 
         <section class="game-container">
             <div class="company-card" id="agencia"></div>
@@ -32,22 +47,15 @@
             <div class="company-card" id="escola"></div>
             <div class="company-card" id="jogos"></div>
             <div class="company-card" id="restaurante"></div>
-            
+
         </section>
     </main>
 
-    <div id="start-game-modal" class="modal">
-        <div class="modal-content">
-            <h2>Bem-vindo ao Usability Homes!</h2>
-            <p>Seu desafio é identificar problemas de usabilidade e aplicar as Heurísticas de Nielsen.</p>
-            <button id="start-button">Iniciar Jogo</button>
-        </div>
-    </div>
 
     <div id="quiz-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h2>Problema de Usabilidade Detectado!</h2>
+            <h2>Responda com a heurística correta</h2>
             <div id="usability-problem-image-container">
                 <img id="usability-problem-image" src="" alt="Problema de Usabilidade">
             </div>
@@ -63,9 +71,24 @@
             <p>Sua pontuação final: <span id="final-score">0</span> moedas</p>
             <p id="feedback-message"></p>
             <button id="play-again-button">Jogar Novamente</button>
-            <button id="exit">sair</button>
+            <button id="exit">Sair</button>
         </div>
     </div>
+
+    <footer class="footer-info">
+        <h3>Sobre o quiz Usability Homes </h3>
+        <p>
+            Este jogo educacional foi desenvolvido como parte da disciplina de Interação Humano-Computador (IHC),
+            no curso de Sistemas de Informação do Instituto Federal de Ciência e Tecnologia – Campus Ouro Branco.
+        </p>
+        <p>
+            O objetivo do projeto é proporcionar uma forma criativa e interativa de aprender as
+            <strong>Heurísticas de Usabilidade de Nielsen</strong>, aplicadas a problemas reais em interfaces digitais.
+        </p>
+        <p><strong>Autores:</strong> Paloma Bianca do Nascimento, Thiago Salles Fernandes, Gabrielly Vitória Chaves
+            Assunção </p>
+        <p><em>Orientação:</em> Professor: Ângelo Magno de Jesus </p>
+    </footer>
 
     <script src="./script/problems.js"></script>
     <script src="./script/script.js"></script>
