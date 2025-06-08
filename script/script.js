@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Configurações fase: Inicial,Intermediária e Dificil
   const pointsPerPhase = [5, 10, 15];
-  const timeLimitsPerPhase = [2, 2, 2]; // Tempo para responder (Inicial, Intermediário, Final)
+  const timeLimitsPerPhase = [30, 25, 15]; // Tempo para responder (Inicial, Intermediário, Final)
   const penaltyPerIncorrectAnswer = 4; // Perde 4 moedas se não responder a tempo
 
   function updateScore(amount) {
@@ -284,13 +284,25 @@ function showQuiz(companyCard) {
     const speedBonus = calculateSpeedBonus(initialTimeLimit, timeTaken);
     pointsGained += speedBonus;
     updateScore(pointsGained);
-    showMessageModal("Resposta Correta", `Parabéns! Você ganhou ${pointsGained} moedas.`);
+
+    document.getElementById("success-sound").play();
+    confetti();
+
+    setTimeout(() => {
+      showMessageModal("Resposta Correta", `Parabéns! Você ganhou ${pointsGained} moedas.`);
+    }, 1000);
   } else {
     updateScore(-penaltyPerIncorrectAnswer);
-    showMessageModal("Resposta Incorreta", `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
+
+    document.getElementById("error-sound").play();
+    document.body.classList.add("shake");
+
+    setTimeout(() => {
+      document.body.classList.remove("shake");
+      showMessageModal("Resposta Incorreta", `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
+    }, 500);
   }
 
-  // ✅ Marcar como resolvido apenas aqui!
   currentProblem.alreadyShown = true;
   answeredQuestionsCount++;
 
@@ -322,6 +334,7 @@ function showQuiz(companyCard) {
     }
   }, 1500);
 }
+
 
 
   function handleQuizTimeout(companyCard) {
