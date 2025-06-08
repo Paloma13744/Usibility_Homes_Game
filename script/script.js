@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Configurações fase: Inicial,Intermediária e Dificil
   const pointsPerPhase = [5, 10, 15];
-  const timeLimitsPerPhase = [30, 20, 15]; // Tempo para responder (Inicial, Intermediário, Final)
+  const timeLimitsPerPhase = [2, 2, 2]; // Tempo para responder (Inicial, Intermediário, Final)
   const penaltyPerIncorrectAnswer = 4; // Perde 4 moedas se não responder a tempo
 
   function updateScore(amount) {
@@ -140,10 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function generateProblem() {
-    if (quizActive) {
-      console.log("Quiz já está ativo, aguardando resposta...");
-      return;
-    }
 
     const activeCompanies = Array.from(companyCards).filter((card) => {
       const companyProblems = usabilityProblems.filter(
@@ -168,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startProblemGenerationTimer() {
-    stopProblemGenerationTimer();
+
     problemGenerationTimer = setInterval(
       generateProblem,
       problemGenerationInterval
@@ -181,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 function showQuiz(companyCard) {
-  stopProblemGenerationTimer();
   quizActive = true;
   currentCompanyCard = companyCard;
   const companyId = companyCard.id;
@@ -340,12 +335,30 @@ function showQuiz(companyCard) {
 
   removeAlertSignal(companyCard);
 
+  // Verifica se todos os problemas da empresa foram resolvidos
+  const companyId = companyCard.id;
+  const companyProblems = usabilityProblems.filter((p) => p.company === companyId);
+  const unresolved = companyProblems.filter((p) => !p.alreadyShown);
+
+  if (unresolved.length === 0) {
+    const existingAlert = companyCard.querySelector(".alert-sinal, .alert-sinal.pendente");
+    if (existingAlert) existingAlert.remove();
+
+    if (!companyCard.querySelector(".check-sinal")) {
+      const check = document.createElement("div");
+      check.className = "check-sinal";
+      check.innerHTML = "✓";
+      companyCard.appendChild(check);
+    }
+  }
+
   if (answeredQuestionsCount >= 18) {
     endGame();
   } else {
     startProblemGenerationTimer();
   }
 }
+
 
 
   // Adiciona suporte para quizzes pendentes no localStorage
