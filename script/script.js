@@ -180,85 +180,81 @@ document.addEventListener("DOMContentLoaded", () => {
     problemGenerationTimer = null;
   }
 
-  function showQuiz(companyCard) {
-    stopProblemGenerationTimer();
-    quizActive = true;
-    currentCompanyCard = companyCard;
-    const companyId = companyCard.id;
+function showQuiz(companyCard) {
+  stopProblemGenerationTimer();
+  quizActive = true;
+  currentCompanyCard = companyCard;
+  const companyId = companyCard.id;
 
-    let pending = getPendingQuiz(companyId);
-    let timeLeft;
+  let pending = getPendingQuiz(companyId);
+  let timeLeft;
 
-    if (pending) {
-      currentProblem = usabilityProblems.find(
-        (p) => p.id === pending.problemId && p.company === companyId
-      );
+  if (pending) {
+    currentProblem = usabilityProblems.find(
+      (p) => p.id === pending.problemId && p.company === companyId
+    );
 
-      if (!currentProblem) {
-        console.warn(
-          `Problema não encontrado: ID=${pending.problemId} / empresa=${companyId}`
-        );
-        removePendingQuiz(companyId);
-        quizActive = false;
-        startProblemGenerationTimer();
-        return;
-      }
-
-      timeLeft = pending.timeLeft;
-    } else {
-      const companyProblems = usabilityProblems.filter(
-        (p) => p.company === companyId && !p.alreadyShown
-      );
-
-      if (companyProblems.length === 0) {
-        showMessageModal(
-          "Atenção",
-          "Todos os problemas dessa empresa já foram apresentados."
-        );
-        removeAlertSignal(companyCard);
-        quizActive = false;
-        startProblemGenerationTimer();
-        return;
-      }
-
-      const randomIndex = Math.floor(Math.random() * companyProblems.length);
-      currentProblem = companyProblems[randomIndex];
-      currentProblem.alreadyShown = true;
-      timeLeft = getQuizConfig().timeLimit;
+    if (!currentProblem) {
+      console.warn(`Problema não encontrado: ID=${pending.problemId} / empresa=${companyId}`);
+      removePendingQuiz(companyId);
+      quizActive = false;
+      startProblemGenerationTimer();
+      return;
     }
 
-    usabilityProblemImage.src =
-      currentProblem.problemImage || "assets/problems/fundoPadrao.png";
-    problemDescription.textContent = currentProblem.description;
+    timeLeft = pending.timeLeft;
+  } else {
+    const companyProblems = usabilityProblems.filter(
+      (p) => p.company === companyId && !p.alreadyShown
+    );
 
-    const { timeLimit } = getQuizConfig();
+    if (companyProblems.length === 0) {
+      showMessageModal("Atenção", "Todos os problemas dessa empresa já foram apresentados.");
+      removeAlertSignal(companyCard);
+      quizActive = false;
+      startProblemGenerationTimer();
+      return;
+    }
 
-    quizOptions.innerHTML = "";
-    currentProblem.options.forEach((option) => {
-      const button = document.createElement("button");
-      button.textContent = option.text;
-      button.dataset.optionId = option.id;
-      button.addEventListener("click", () =>
-        checkAnswer(option.id, companyCard, timeLimit)
-      );
-      quizOptions.appendChild(button);
-    });
+    const randomIndex = Math.floor(Math.random() * companyProblems.length);
+    currentProblem = companyProblems[randomIndex];
 
-    quizModal.style.display = "flex";
-
-    quizTimerDisplay.textContent = timeLeft;
-    clearInterval(quizInterval);
-
-    quizInterval = setInterval(() => {
-      timeLeft--;
-      quizTimerDisplay.textContent = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(quizInterval);
-        removePendingQuiz(companyId);
-        handleQuizTimeout(companyCard);
-      }
-    }, 1000);
+    // ⚠️ Não marca como 'alreadyShown' aqui
+    timeLeft = getQuizConfig().timeLimit;
   }
+
+  usabilityProblemImage.src = currentProblem.problemImage || "assets/problems/fundoPadrao.png";
+  problemDescription.textContent = currentProblem.description;
+
+  const { timeLimit } = getQuizConfig();
+
+  quizOptions.innerHTML = "";
+  currentProblem.options.forEach((option) => {
+    const button = document.createElement("button");
+    button.textContent = option.text;
+    button.dataset.optionId = option.id;
+    button.addEventListener("click", () =>
+      checkAnswer(option.id, companyCard, timeLimit)
+    );
+    quizOptions.appendChild(button);
+  });
+
+  quizModal.style.display = "flex";
+
+  quizTimerDisplay.textContent = timeLeft;
+  clearInterval(quizInterval);
+
+  quizInterval = setInterval(() => {
+    timeLeft--;
+    quizTimerDisplay.textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(quizInterval);
+      removePendingQuiz(companyId);
+      handleQuizTimeout(companyCard);
+    }
+  }, 1000);
+}
+
 
   function calculateSpeedBonus(initialTimeLimit, timeTaken) {
     // Bônus para o jogador
@@ -272,90 +268,85 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function checkAnswer(selectedOptionId, companyCard, initialTimeLimit) {
-    clearInterval(quizInterval);
-    removePendingQuiz(companyCard.id);
+  clearInterval(quizInterval);
+  removePendingQuiz(companyCard.id);
 
-    const buttons = quizOptions.querySelectorAll("button");
-    buttons.forEach((button) => {
-      if (button.dataset.optionId === currentProblem.correctHeuristicId) {
-        button.classList.add("correct");
-      } else if (button.dataset.optionId === selectedOptionId) {
-        button.classList.add("incorrect");
-      }
-      button.disabled = true;
-    });
-
-    const { points } = getQuizConfig();
-    const timeTaken = initialTimeLimit - parseInt(quizTimerDisplay.textContent);
-
-    if (selectedOptionId === currentProblem.correctHeuristicId) {
-      let pointsGained = points;
-      const speedBonus = calculateSpeedBonus(initialTimeLimit, timeTaken);
-      pointsGained += speedBonus;
-      updateScore(pointsGained);
-      showMessageModal(
-        "Resposta Correta",
-        `Parabéns! Você ganhou ${pointsGained} moedas.`
-      );
-    } else {
-      updateScore(-penaltyPerIncorrectAnswer);
-      showMessageModal(
-        "Resposta Incorreta",
-        `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`
-      );
+  const buttons = quizOptions.querySelectorAll("button");
+  buttons.forEach((button) => {
+    if (button.dataset.optionId === currentProblem.correctHeuristicId) {
+      button.classList.add("correct");
+    } else if (button.dataset.optionId === selectedOptionId) {
+      button.classList.add("incorrect");
     }
+    button.disabled = true;
+  });
 
-    answeredQuestionsCount++;
+  const { points } = getQuizConfig();
+  const timeTaken = initialTimeLimit - parseInt(quizTimerDisplay.textContent);
 
-    setTimeout(() => {
-      quizModal.style.display = "none";
-      removeAlertSignal(companyCard);
-      quizActive = false;
-
-      // ✅ Verifica se todos os problemas da empresa foram resolvidos
-      const companyId = companyCard.id;
-      const companyProblems = usabilityProblems.filter(
-        (p) => p.company === companyId
-      );
-      const unresolved = companyProblems.filter((p) => !p.alreadyShown);
-
-      if (unresolved.length === 0) {
-        const existingAlert = companyCard.querySelector(
-          ".alert-sinal, .alert-sinal.pendente"
-        );
-        if (existingAlert) existingAlert.remove();
-
-        if (!companyCard.querySelector(".check-sinal")) {
-          const check = document.createElement("div");
-          check.className = "check-sinal";
-          check.innerHTML = "✓";
-          companyCard.appendChild(check);
-        }
-      }
-
-      if (answeredQuestionsCount >= 18) {
-        endGame();
-      } else {
-        startProblemGenerationTimer();
-      }
-    }, 1500);
+  if (selectedOptionId === currentProblem.correctHeuristicId) {
+    let pointsGained = points;
+    const speedBonus = calculateSpeedBonus(initialTimeLimit, timeTaken);
+    pointsGained += speedBonus;
+    updateScore(pointsGained);
+    showMessageModal("Resposta Correta", `Parabéns! Você ganhou ${pointsGained} moedas.`);
+  } else {
+    updateScore(-penaltyPerIncorrectAnswer);
+    showMessageModal("Resposta Incorreta", `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
   }
 
-  function handleQuizTimeout(companyCard) {
-    clearInterval(quizInterval);
-    //showMessageModal('Tempo Esgotado', 'Você perdeu dinheiro.');
-    updateScore(-penaltyPerIncorrectAnswer); // Penalidade por não responder a tempo
+  // ✅ Marcar como resolvido apenas aqui!
+  currentProblem.alreadyShown = true;
+  answeredQuestionsCount++;
+
+  setTimeout(() => {
     quizModal.style.display = "none";
     removeAlertSignal(companyCard);
     quizActive = false;
-    answeredQuestionsCount++;
+
+    const companyId = companyCard.id;
+    const companyProblems = usabilityProblems.filter((p) => p.company === companyId);
+    const unresolved = companyProblems.filter((p) => !p.alreadyShown);
+
+    if (unresolved.length === 0) {
+      const existingAlert = companyCard.querySelector(".alert-sinal, .alert-sinal.pendente");
+      if (existingAlert) existingAlert.remove();
+
+      if (!companyCard.querySelector(".check-sinal")) {
+        const check = document.createElement("div");
+        check.className = "check-sinal";
+        check.innerHTML = "✓";
+        companyCard.appendChild(check);
+      }
+    }
 
     if (answeredQuestionsCount >= 18) {
       endGame();
     } else {
       startProblemGenerationTimer();
     }
+  }, 1500);
+}
+
+
+  function handleQuizTimeout(companyCard) {
+  clearInterval(quizInterval);
+  updateScore(-penaltyPerIncorrectAnswer);
+  quizModal.style.display = "none";
+  quizActive = false;
+
+  currentProblem.alreadyShown = true;
+  answeredQuestionsCount++;
+
+  removeAlertSignal(companyCard);
+
+  if (answeredQuestionsCount >= 18) {
+    endGame();
+  } else {
+    startProblemGenerationTimer();
   }
+}
+
 
   // Adiciona suporte para quizzes pendentes no localStorage
   function getPendingQuiz(companyId) {
@@ -502,10 +493,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const timeLeft = parseInt(quizTimerDisplay.textContent);
       savePendingQuiz(currentCompanyCard.id, currentProblem.id, timeLeft);
 
-      removeAlertSignal(currentCompanyCard);
-      createAlertSignal(currentCompanyCard);
+      // Atualiza ou cria o alerta pendente com ícone ⏳
+      const existingAlert = currentCompanyCard.querySelector(".alert-sinal");
+      if (existingAlert) {
+        existingAlert.textContent = "⏳";
+        existingAlert.classList.add("pendente");
+        existingAlert.classList.remove("respondido");
+      } else {
+        const alertDiv = document.createElement("div");
+        alertDiv.classList.add("alert-sinal", "pendente");
+        alertDiv.textContent = "⏳";
+        currentCompanyCard.appendChild(alertDiv);
+      }
+
+      currentCompanyCard.classList.add("has-alert", "pulsating");
     }
 
+    // Retoma a geração de problemas se ainda não acabou o jogo
     if (answeredQuestionsCount < 18) {
       startProblemGenerationTimer();
     }
