@@ -513,6 +513,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // "Jogar Novamente"
   playAgainButton.addEventListener("click", () => {
+    localStorage.removeItem("pendingQuizzes");
     resetGame();
     startGameTimer();
     startProblemGenerationTimer();
@@ -520,6 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //  "Iniciar Jogo"
   startButton.addEventListener("click", () => {
+    localStorage.removeItem("pendingQuizzes");
     startGameTimer();
     startProblemGenerationTimer(); // Inicia a geração de problemas
   });
@@ -538,6 +540,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   exitButton.addEventListener("click", () => {
+    localStorage.removeItem("pendingQuizzes");
     window.location.href = "./index.html";
   });
 
