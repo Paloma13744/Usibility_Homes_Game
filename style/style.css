@@ -739,3 +739,47 @@ aside.painel-temp {
   background-color: #c0392b;
   transform: translateY(-2px);
 }
+
+
+#message-modal .modal-content {
+  background-color: #fefefe;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  animation: slideIn 0.4s ease-out;
+}
+
+#message-modal h2#message-title {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+#message-modal p#message-body {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+#message-ok-button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#message-ok-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
