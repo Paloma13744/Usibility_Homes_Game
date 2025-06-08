@@ -232,12 +232,12 @@ const usabilityProblems = [
     {
         company: 'restaurante',
         problemImage: 'assets/problems/problema2_restaurante.png',
-        description: 'Durante o pagamento em um app de restaurante, o usuário tenta inserir os dados do cartão, mas o teclado não aparece.\n Não há mensagem de erro, nem resposta do sistema, impedindo a conclusão da compra. \nQual heurística de usabilidade de Nielsen está sendo violada nesse caso?',
-        correctHeuristicId: '1',
+        description: 'Na tela de pagamento de um aplicativo, o usuário é solicitado a inserir os dados do cartão de crédito, mas uma mensagem informa que o teclado necessário não está disponível. A interface não oferece instruções claras sobre como resolver o problema ou continuar o processo.? Qual heurística de usabilidade de Nielsen está sendo violada nesse cenário?',
+        correctHeuristicId: '9',
         id: 'restaurante-2',
         options: [
             { id: '4', text: 'Consistência e padronização' },
-            { id: '1', text: 'Visibilidade do estado do sistema' },
+            { id: '9', text: 'Ajuda os Usuários a Reconhecerem, Diagnosticar e Recuperar de Erros' },
             { id: '6', text: 'Reconhecimento em vez de memorização' },
         ],
         shownRecently: false
