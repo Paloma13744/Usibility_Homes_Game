@@ -2,10 +2,10 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial Jogo Usability Homes</title>
-    <link rel="stylesheet" href="./style/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jogo Usability Homes</title>
+    <link rel="stylesheet" href="./style/style.css" />
 </head>
 
 <body>
@@ -15,64 +15,98 @@
             <h1>Quiz Usability Homes</h1>
         </div>
         <nav>
-            <a href="./game.html">Iniciar Jogo</a>
+            <a href="./tutorial.html">Tutorial</a>
         </nav>
     </header>
 
-    <main class="tutorial-content">
-        <h3>Como Jogar Usability Home:</h3>
-        <p>Bem-vindo ao Usability Homes! Seu objetivo é atuar como um consultor de usabilidade, identificando problemas
-            em diversas empresas e aplicando as Heurísticas de Nielsen para resolvê-los.
-            Prepare-se para um desafio que testará sua rapidez e conhecimento!</p>
+    <main class="game-layout">
+        <div class="sidebar-column">
+            <aside class="painel-temp">
+                <div class="score">
+                    <p>Moedas: <span id="score">0</span></p>
+                    <p>Tempo de Jogo: <span id="game-time">00:00</span></p>
+                </div>
+            </aside>
 
-        <h3>Visão Geral do Jogo:</h3>
-        <ul>
-            <li>Você verá 6 empresas diferentes na tela, representadas por prédios.</li>
-            <li>Uma empresa aleatória começará a sinalizar um problema de usabilidade.</li>
-            <li>Clique na empresa com o alerta para abrir um quiz.</li>
-            <li>No quiz, você verá uma imagem e uma descrição do problema, e deverá escolher a Heurística de Nielsen
-                correta em um tempo limitado.</li>
-            <li>Acerte para ganhar moedas (pontos) e avance para o próximo desafio!</li>
-        </ul>
+            <div class="start-wrapper">
+                <button id="start-button">Iniciar Jogo</button>
+            </div>
 
+            <div class="start-wrapper">
+                <button id="end-game-button" class="header-button">Finalizar Jogo</button>
+            </div>
 
-        <h3>Tempo e Progressão:</h3>
-        <p>O jogo se adapta ao seu progresso, aumentando a dificuldade e a pressão do tempo:</p>
-        <ul>
-            <li><strong>Fase Inicial (Perguntas 1-6):</strong> 30 segundos para responder a cada pergunta.</li>
-            <li><strong>Fase Intermediária (Perguntas 7-12):</strong> O tempo cai para 20 segundos por pergunta.</li>
-            <li><strong>Fase Final (Perguntas 13-18):</strong> Apenas 15 segundos por pergunta.</li>
-        </ul>
-        <p>Um novo quiz aparecerá a cada 10 segundos</p>
+        </div>
 
+        <section class="game-container">
+            <div class="company-card" id="agencia"></div>
+            <div class="company-card" id="banco"></div>
+            <div class="company-card" id="e-commerce"></div>
+            <div class="company-card" id="escola"></div>
+            <div class="company-card" id="jogos"></div>
+            <div class="company-card" id="restaurante"></div>
 
-
-        <h3>Sistema de Pontuação:</h3>
-        <p>Sua pontuação reflete sua precisão e agilidade:</p>
-        <ul>
-            <li><strong>Fase Inicial (Perguntas 1-6):</strong> Cada resposta correta rende <strong>5 moedas</strong>.
-            </li>
-            <li><strong>Fase Intermediária (Perguntas 7-12):</strong> Cada resposta correta vale <strong>10
-                    moedas</strong>.</li>
-            <li><strong>Fase Final (Perguntas 13-18):</strong> Cada resposta correta vale <strong>15 moedas</strong>.
-            </li>
-            <li><strong>Bônus por Velocidade:</strong> Responda rapidamente para ganhar moedas extras! Mais pontos para
-                respostas mais ágeis.</li>
-            <li><strong>Penalidade por Respostas Incorretas:</strong> Cada resposta errada resulta na perda de <strong>4
-                    moedas</strong>. Pense com cuidado antes de escolher!</li>
-        </ul>
-
-
-
-        <h3>Fim do Jogo e Resultados:</h3>
-        <p>Após concluir as 18 perguntas, o jogo será finalizado e você verá sua pontuação total acompanhada de uma
-            mensagem
-            personalizada sobre seu desempenho. A partir daí,
-            você poderá optar por 'Jogar Novamente' e continuar aprimorando suas habilidades em usabilidade —
-            ou encerrar sua jornada e sair do jogo.</p>
-
-        <p>Boa sorte e divirta-se resolvendo problemas de usabilidade!</p>
+        </section>
     </main>
+
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Responda com a heurística correta</h2>
+            <div id="usability-problem-image-container">
+                <img id="usability-problem-image" src="" alt="Problema de Usabilidade">
+            </div>
+            <p id="problem-description"></p>
+            <div id="quiz-options"></div>
+            <p id="quiz-timer">Tempo restante: <span></span>s</p>
+        </div>
+    </div>
+
+    <div id="end-game-modal" class="modal">
+        <div class="modal-content">
+            <h2>Fim de Jogo!</h2>
+            <p>Sua pontuação final: <span id="final-score">0</span> moedas</p>
+            <p id="feedback-message"></p>
+            <button id="play-again-button">Jogar Novamente</button>
+            <button id="exit">Sair</button>
+        </div>
+    </div>
+
+    <!-- Modal de mensagem-->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="message-title">Mensagem</h2>
+            <p id="message-body"></p>
+            <button id="message-ok-button">OK</button>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <p>Tem certeza que deseja finalizar o jogo? Sua pontuação atual será registrada.</p>
+        <button id="confirmYes">Sim</button>
+        <button id="confirmNo">Cancelar</button>
+    </div>
+    </div>
+
+    <footer class="footer-info">
+        <h3>Sobre o quiz Usability Homes </h3>
+        <p>
+            Este jogo educacional foi desenvolvido como parte da disciplina de Interação Humano-Computador (IHC),
+            no curso de Sistemas de Informação do Instituto Federal de Ciência e Tecnologia – Campus Ouro Branco.
+        </p>
+        <p>
+            O objetivo do projeto é proporcionar uma forma criativa e interativa de aprender as
+            <strong>Heurísticas de Usabilidade de Nielsen</strong>, aplicadas a problemas reais em interfaces digitais.
+        </p>
+        <p><strong>Autores:</strong> Paloma Bianca do Nascimento, Thiago Salles Fernandes, Gabrielly Vitória Chaves
+            Assunção </p>
+        <p><em>Orientação:</em> Professor: Ângelo Magno de Jesus </p>
+    </footer>
+
+    <script src="./script/problems.js"></script>
+    <script src="./script/script.js"></script>
 </body>
 
 </html>

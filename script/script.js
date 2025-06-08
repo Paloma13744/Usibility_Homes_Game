@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const startGameModal = document.getElementById('start-game-modal');
     const startButton = document.getElementById('start-button');
     const endGameButton = document.getElementById('end-game-button');
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
     const exitButton = document.getElementById('exit');
 
     let score = 0;
@@ -86,6 +89,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function showMessageModal(title, message, callback = null) {
+        const messageModal = document.getElementById('message-modal');
+        const messageTitle = document.getElementById('message-title');
+        const messageBody = document.getElementById('message-body');
+        const messageOkButton = document.getElementById('message-ok-button');
+
+        messageTitle.textContent = title;
+        messageBody.textContent = message;
+        messageModal.style.display = 'flex';
+
+        const closeHandler = () => {
+            messageModal.style.display = 'none';
+            messageOkButton.removeEventListener('click', closeHandler);
+            if (callback) callback();
+        };
+
+        messageOkButton.addEventListener('click', closeHandler);
+    }
+
     function determinePhase() {   // Determina a fase do jogo: Inicial,Intermediária ou Final
         if (answeredQuestionsCount < 6) return 0;
         if (answeredQuestionsCount < 12) return 1;
@@ -132,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const companyProblems = usabilityProblems.filter(p => p.company === companyId);
 
         if (companyProblems.length === 0) {
-            alert('Nenhum problema disponível para esta empresa.');
+            //showMessageModal('Atenção', 'Nenhum problema disponível para esta empresa.');
             startProblemGenerationTimer();
             quizActive = false;
             return;
@@ -161,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentProblem.problemImage) {
             usabilityProblemImage.src = currentProblem.problemImage;
         } else {
-            usabilityProblemImage.src = 'https://via.placeholder.com/400x200/CCCCCC/888888?text=Sem+Imagem';
+            usabilityProblemImage.src = 'assets/problems/fundoPadrao.png';
         }
 
         problemDescription.textContent = currentProblem.description;
@@ -216,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const { points } = getQuizConfig();
+
         // O tempo que levou para responder é a diferença entre o tempo inicial e o tempo que restava
         const timeTaken = initialTimeLimit - parseInt(quizTimerDisplay.textContent);
 
@@ -224,10 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const speedBonus = calculateSpeedBonus(initialTimeLimit, timeTaken);
             pointsGained += speedBonus;
             updateScore(pointsGained);
-            alert(`Parabéns! Resposta correta! Você ganhou ${pointsGained} moedas.`);
+            showMessageModal('Resposta Correta', `Parabéns! Você ganhou ${pointsGained} moedas.`);
         } else {
             updateScore(-penaltyPerIncorrectAnswer);
-            alert(`Ops! Resposta incorreta. Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
+            showMessageModal('Resposta Incorreta', `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
         }
 
         answeredQuestionsCount++;
@@ -247,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleQuizTimeout(companyCard) {
         clearInterval(quizInterval);
-        alert('Tempo esgotado! Você perdeu dinheiro.');
+        //showMessageModal('Tempo Esgotado', 'Você perdeu dinheiro.');
         updateScore(-penaltyPerIncorrectAnswer); // Penalidade por não responder a tempo
         quizModal.style.display = 'none';
         removeAlertSignal(companyCard);
@@ -303,29 +326,26 @@ document.addEventListener('DOMContentLoaded', () => {
         stopGameTimer();
         stopProblemGenerationTimer();
         clearInterval(quizInterval);
-
-
     }
 
     companyCards.forEach(card => {
         card.addEventListener('click', () => {
             if (card.classList.contains('has-alert')) {
                 showQuiz(card);
-            } else if (!card.classList.contains('empty-card')) { // Evita alerta para cards vazios
-                alert('Essa empresa não tem problemas de usabilidade agora!');
             }
         });
     });
-
 
     closeButton.addEventListener('click', () => {
         clearInterval(quizInterval); // Apenas para o cronômetro do quiz
         quizModal.style.display = 'none';
         quizActive = false;
+
         // Se um quiz estava ativo e foi fechado, remove o alerta da empresa
         if (currentCompanyCard && currentCompanyCard.classList.contains('has-alert')) {
             removeAlertSignal(currentCompanyCard);
         }
+
         // Retoma a geração de problemas se o jogo não terminou
         if (answeredQuestionsCount < 18) {
             startProblemGenerationTimer();
@@ -345,21 +365,21 @@ document.addEventListener('DOMContentLoaded', () => {
         startProblemGenerationTimer(); // Inicia a geração de problemas
     });
 
-    // Finaliza o jogo (ao clicar no botão)
     endGameButton.addEventListener('click', () => {
-        if (confirm("Tem certeza que deseja finalizar o jogo? Sua pontuação atual será registrada.")) {
-            endGame();
-        }
+        confirmModal.style.display = 'flex'; // Mostrar modal
     });
 
+    confirmYes.addEventListener('click', () => {
+        confirmModal.style.display = 'none'; // Esconde modal
+        endGame(); // Finaliza o jogo
+    });
+
+    confirmNo.addEventListener('click', () => {
+        confirmModal.style.display = 'none'; // Esconde modal
+    });
 
 
     exitButton.addEventListener('click', () => {
-        if (confirm("Deseja realmente sair do jogo? Seu progresso será perdido.")) {
-            window.location.href = './index.html';
-        }
+        window.location.href = './index.html';
     });
-
-
-
 });

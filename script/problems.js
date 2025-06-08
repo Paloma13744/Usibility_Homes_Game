@@ -11,8 +11,6 @@ const nielsenHeuristics = [  // Ids dos problemas respectivos
     { id: '10', name: 'Ajuda e Documentação' }
 ];
 
-
-
 // Problemas de Usabilidade
 const usabilityProblems = [
     {
@@ -78,7 +76,7 @@ const usabilityProblems = [
     {
         company: 'jogos',
         problemImage: 'assets/problems/problema3_jogo.png',
-        description: 'Um jogador está tentando criar um circuito de Redstone, mas não há explicação no jogo sobre como ele funciona, como conectar, ou como usar os componentes. Qual heurística de usabilidade está sendo quebrada aqui?',
+        description: 'Antigamente, o jogo Minecraft exigia que os jogadores decorassem ou buscassem externamente as combinações de materiais necessárias para criar itens. A partir de uma atualização, foi introduzido um livro de receitas dentro do jogo que mostra quais itens podem ser criados e quais materiais são necessários, facilitando o processo de criação. Com base nisso, qual heurística de usabilidade foi aplicada ao adicionar esse recurso?',
         correctHeuristicId: '10',
         options: [
             { id: '3', text: 'Controle e liberdade do usuário' },
