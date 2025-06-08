@@ -690,3 +690,52 @@ aside.painel-temp {
   opacity: 1;
   pointer-events: auto;
 }
+
+#confirmModal .modal-content {
+  background-color: #fefefe;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  animation: slideIn 0.4s ease-out;
+}
+
+#confirmModal .modal-content p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#confirmModal button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#confirmYes {
+  background-color: #27ae60;
+  color: white;
+}
+
+#confirmYes:hover {
+  background-color: #229a56;
+  transform: translateY(-2px);
+}
+
+#confirmNo {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#confirmNo:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
