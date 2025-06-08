@@ -191,8 +191,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pending) {
       currentProblem = usabilityProblems.find(
-        (p) => p.id === pending.problemId
+        (p) => p.id === pending.problemId && p.company === companyId
       );
+
+      if (!currentProblem) {
+        console.warn(
+          `Problema não encontrado: ID=${pending.problemId} / empresa=${companyId}`
+        );
+        removePendingQuiz(companyId);
+        quizActive = false;
+        startProblemGenerationTimer();
+        return;
+      }
+
       timeLeft = pending.timeLeft;
     } else {
       const companyProblems = usabilityProblems.filter(
@@ -418,7 +429,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gameTimeDisplay.textContent = "00:00";
 
     usabilityProblems.forEach((problem) => {
-      problem.shownRecently = false;
       problem.alreadyShown = false;
     });
 
