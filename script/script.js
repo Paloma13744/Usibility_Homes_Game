@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let quizInterval;
   let currentProblem = null;
   let currentCompanyCard = null;
-  let problemGenerationInterval = 2000; // 10 segundos para um novo problema surgir
+  let problemGenerationInterval = 8000;
   let problemGenerationTimer;
   let answeredQuestionsCount = 0;
   let quizActive = false;
