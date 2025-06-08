@@ -163,7 +163,7 @@ const usabilityProblems = [
     },
     {
         company: 'agencia',
-        problemImage: 'assets/problems/problema3_agencia.png',   // falta essa imagem
+        problemImage: 'assets/problems/problema3_agencia.png',   
         description: `O botão principal muda de cor, posição, idioma e formato em cada etapa (verde “Pesquisar”, azul “Selecionar”, 
             laranja “Checkout”, cinza “FINALIZAR”).\n A navegação também muda ou desaparece, confundindo o usuário.
             Consequência: Parece que o app muda a cada tela. Usuários se perdem e desistem da compra.
@@ -232,7 +232,7 @@ const usabilityProblems = [
     {
         company: 'restaurante',
         problemImage: 'assets/problems/problema2_restaurante.png',
-        description: 'Na tela de pagamento de um aplicativo, o usuário é solicitado a inserir os dados do cartão de crédito, mas uma mensagem informa que o teclado necessário não está disponível. A interface não oferece instruções claras sobre como resolver o problema ou continuar o processo.? Qual heurística de usabilidade de Nielsen está sendo violada nesse cenário?',
+        description: 'Na tela de pagamento de um aplicativo, o usuário é solicitado a inserir os dados do cartão de crédito, mas uma mensagem informa que o teclado necessário não está disponível. A interface não oferece instruções claras sobre como resolver o problema ou continuar o processo. Qual heurística de usabilidade de Nielsen está sendo violada nesse cenário?',
         correctHeuristicId: '9',
         id: 'restaurante-2',
         options: [
