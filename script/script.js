@@ -301,6 +301,27 @@ document.addEventListener("DOMContentLoaded", () => {
       removeAlertSignal(companyCard);
       quizActive = false;
 
+      // ✅ Verifica se todos os problemas da empresa foram resolvidos
+      const companyId = companyCard.id;
+      const companyProblems = usabilityProblems.filter(
+        (p) => p.company === companyId
+      );
+      const unresolved = companyProblems.filter((p) => !p.alreadyShown);
+
+      if (unresolved.length === 0) {
+        const existingAlert = companyCard.querySelector(
+          ".alert-sinal, .alert-sinal.pendente"
+        );
+        if (existingAlert) existingAlert.remove();
+
+        if (!companyCard.querySelector(".check-sinal")) {
+          const check = document.createElement("div");
+          check.className = "check-sinal";
+          check.innerHTML = "✓";
+          companyCard.appendChild(check);
+        }
+      }
+
       if (answeredQuestionsCount >= 18) {
         endGame();
       } else {
@@ -371,6 +392,23 @@ document.addEventListener("DOMContentLoaded", () => {
     endGameModal.style.display = "flex";
   }
 
+  function showToast(message) {
+    let toast = document.getElementById("toast-message");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toast-message";
+      toast.className = "toast";
+      document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
+
   function resetGame() {
     score = 0;
     gameTime = 0;
@@ -398,8 +436,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
   companyCards.forEach((card) => {
     card.addEventListener("click", () => {
+      const companyId = card.id;
+      const companyName =
+        companyId.charAt(0).toUpperCase() +
+        companyId.slice(1).replace("-", " ");
+      const companyProblems = usabilityProblems.filter(
+        (p) => p.company === companyId
+      );
+
+      if (companyProblems.length === 0) {
+        showToast(`A empresa ${companyName} não tem problemas no momento.`);
+        return;
+      }
+
+      const unresolved = companyProblems.filter((p) => !p.alreadyShown);
+      if (unresolved.length === 0) {
+        showToast(
+          `Todos os problemas da empresa ${companyName} foram resolvidos. ✅`
+        );
+
+        const existingAlert = card.querySelector(
+          ".alert-sinal, .alert-sinal.pendente"
+        );
+        if (existingAlert) existingAlert.remove();
+
+        if (!card.querySelector(".check-sinal")) {
+          const check = document.createElement("div");
+          check.className = "check-sinal";
+          check.innerHTML = "✓";
+          card.appendChild(check);
+        }
+        return;
+      }
+
       if (card.classList.contains("has-alert")) {
         showQuiz(card);
+      } else {
+        // Empresa clicada, mas não tem alerta
+        const companyName =
+          companyId.charAt(0).toUpperCase() +
+          companyId.slice(1).replace("-", " ");
+        showToast(
+          `A empresa ${companyName} ainda não tem problemas no momento.`
+        );
       }
     });
   });
