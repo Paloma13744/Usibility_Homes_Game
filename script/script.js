@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let quizInterval;
     let currentProblem = null;
     let currentCompanyCard = null;
-    let problemGenerationInterval = 10000; // 10 segundos para um novo problema surgir
+    let problemGenerationInterval = 2000; // 10 segundos para um novo problema surgir
     let problemGenerationTimer;
     let answeredQuestionsCount = 0;
     let quizActive = false;
@@ -123,18 +123,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function generateProblem() {
-        if (quizActive) {  // Só gera problema quando não há nenhum quiz ativo no momento
-            console.log("Quiz já está ativo, aguardando resposta...");
-            return;
-        }
-
-        const targetCompany = getRandomCompany();
-        if (targetCompany) {
-            createAlertSignal(targetCompany);
-        } else {
-            console.log("Nenhuma empresa disponível para gerar um novo problema ou todas já têm alerta.");
-        }
+    if (quizActive) {
+        console.log("Quiz já está ativo, aguardando resposta...");
+        return;
     }
+
+    const activeCompanies = Array.from(companyCards).filter(card => {
+        const companyProblems = usabilityProblems.filter(p => p.company === card.id && !p.alreadyShown);
+        return !card.classList.contains('has-alert') && !card.classList.contains('empty-card') && companyProblems.length > 0;
+    });
+
+    if (activeCompanies.length === 0) {
+        console.log("Nenhuma empresa disponível para gerar um novo problema.");
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * activeCompanies.length);
+    const targetCompany = activeCompanies[randomIndex];
+
+    createAlertSignal(targetCompany);
+    }
+
 
     function startProblemGenerationTimer() {
         stopProblemGenerationTimer();
@@ -147,49 +156,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showQuiz(companyCard) {
-        stopProblemGenerationTimer(); // Pausa a geração de novos problemas enquanto o quiz está ativo
+        stopProblemGenerationTimer();
         quizActive = true;
         currentCompanyCard = companyCard;
         const companyId = companyCard.id;
-        const companyProblems = usabilityProblems.filter(p => p.company === companyId);
+
+        const companyProblems = usabilityProblems.filter(p => p.company === companyId && !p.alreadyShown);
 
         if (companyProblems.length === 0) {
-            //showMessageModal('Atenção', 'Nenhum problema disponível para esta empresa.');
-            startProblemGenerationTimer();
+            showMessageModal('Atenção', 'Todos os problemas dessa empresa já foram apresentados.');
+            removeAlertSignal(companyCard);
             quizActive = false;
+            startProblemGenerationTimer();
             return;
         }
 
-        let problemIndex;
-        // Garante que o mesmo problema não seja mostrado seguidamente se a empresa tiver mais de um problema
-        const availableProblemsForCompany = companyProblems.filter(p => !p.shownRecently);
-        if (availableProblemsForCompany.length > 0) {
-            problemIndex = Math.floor(Math.random() * availableProblemsForCompany.length);
-            currentProblem = availableProblemsForCompany[problemIndex];
-        } else {
-            // Se todos os problemas da empresa foram mostrados recentemente, escolhe um aleatoriamente
-            problemIndex = Math.floor(Math.random() * companyProblems.length);
-            currentProblem = companyProblems[problemIndex];
-        }
+        const randomIndex = Math.floor(Math.random() * companyProblems.length);
+        currentProblem = companyProblems[randomIndex];
 
-        currentProblem.shownRecently = true;
-        setTimeout(() => {
-            currentProblem.shownRecently = false;
-        }, problemGenerationInterval * 2);
+        // Marca o problema como já mostrado permanentemente
+        currentProblem.alreadyShown = true;
 
-        usabilityProblemImage.src = '';
-        quizOptions.innerHTML = '';
-
-        if (currentProblem.problemImage) {
-            usabilityProblemImage.src = currentProblem.problemImage;
-        } else {
-            usabilityProblemImage.src = 'assets/problems/fundoPadrao.png';
-        }
-
+        usabilityProblemImage.src = currentProblem.problemImage || 'assets/problems/fundoPadrao.png';
         problemDescription.textContent = currentProblem.description;
 
         const { timeLimit } = getQuizConfig();
 
+        quizOptions.innerHTML = '';
         currentProblem.options.forEach(option => {
             const button = document.createElement('button');
             button.textContent = option.text;
@@ -213,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1000);
     }
+
 
     function calculateSpeedBonus(initialTimeLimit, timeTaken) {  // Bônus para o jogador
         // timeTaken é o tempo que o jogador levou para responder
@@ -308,25 +302,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetGame() {
-        score = 0;
-        gameTime = 0;
-        answeredQuestionsCount = 0;
-        quizActive = false;
-        scoreDisplay.textContent = score;
-        gameTimeDisplay.textContent = "00:00";
+    score = 0;
+    gameTime = 0;
+    answeredQuestionsCount = 0;
+    quizActive = false;
+    scoreDisplay.textContent = score;
+    gameTimeDisplay.textContent = "00:00";
 
-        // Reinicia a propriedade shownRecently para todos os problemas
-        usabilityProblems.forEach(problem => problem.shownRecently = false);
+    // Reseta todos os problemas para disponíveis novamente
+    usabilityProblems.forEach(problem => {
+        problem.shownRecently = false;
+        problem.alreadyShown = false;  // Reinicializa aqui
+    });
 
-        companyCards.forEach(card => removeAlertSignal(card));
+    companyCards.forEach(card => removeAlertSignal(card));
 
-        quizModal.style.display = 'none';
-        endGameModal.style.display = 'none';
+    quizModal.style.display = 'none';
+    endGameModal.style.display = 'none';
 
-        stopGameTimer();
-        stopProblemGenerationTimer();
-        clearInterval(quizInterval);
+    stopGameTimer();
+    stopProblemGenerationTimer();
+    clearInterval(quizInterval);
     }
+
 
     companyCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -382,4 +380,10 @@ document.addEventListener('DOMContentLoaded', () => {
     exitButton.addEventListener('click', () => {
         window.location.href = './index.html';
     });
+
+    usabilityProblems = usabilityProblems.map(problem => ({
+    ...problem,
+    alreadyShown: false,  // inicializa como falso
+}));
+
 });
