@@ -94,7 +94,7 @@ const usabilityProblems = [
     },
     {
         company: 'banco',
-        problemImage: 'assets/problems/problema1_banco.png',
+        problemImage: 'assets/problems/problema1_banco.gif',
         description: 'Após tocar no botão “Enviar PIX”, a tela mostra apenas um círculo girando com a palavra Processando… por mais de 40 segundos. \nNão há barra de progresso, porcentagem, estimativa de tempo nem confirmação parcial (como “Etiqueta de envio criada”).\n Qual heurística está sendo violada?',
         correctHeuristicId: '1',
         id: 'banco-1',
