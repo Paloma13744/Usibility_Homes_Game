@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const penaltyPerIncorrectAnswer = 4; // Perde 4 moedas se não responder a tempo
 
     function updateScore(amount) {
-        score += amount;
+        score = Math.max(0, score + amount);
         scoreDisplay.textContent = score;
     }
+
 
     function startGameTimer() {
         stopGameTimer();
