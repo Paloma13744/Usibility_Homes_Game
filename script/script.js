@@ -162,13 +162,18 @@ document.addEventListener("DOMContentLoaded", () => {
     createAlertSignal(targetCompany);
   }
 
-  function startProblemGenerationTimer() {
+function startProblemGenerationTimer() {
+
+  setTimeout(() => {
+    generateProblem();
 
     problemGenerationTimer = setInterval(
       generateProblem,
       problemGenerationInterval
     );
-  }
+  }, 2000); // 2000ms = 2 segundos
+}
+
 
   function stopProblemGenerationTimer() {
     clearInterval(problemGenerationTimer);
