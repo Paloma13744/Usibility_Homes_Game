@@ -105,24 +105,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function showMessageModal(title, message, callback = null) {
-    const messageModal = document.getElementById("message-modal");
-    const messageTitle = document.getElementById("message-title");
-    const messageBody = document.getElementById("message-body");
-    const messageOkButton = document.getElementById("message-ok-button");
-
-    messageTitle.textContent = title;
-    messageBody.textContent = message;
-    messageModal.style.display = "flex";
-
-    const closeHandler = () => {
-      messageModal.style.display = "none";
-      messageOkButton.removeEventListener("click", closeHandler);
-      if (callback) callback();
-    };
-
-    messageOkButton.addEventListener("click", closeHandler);
+  function showToast(message) {
+  let toast = document.getElementById("toast-message");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast-message";
+    toast.className = "toast";
+    document.body.appendChild(toast);
   }
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 500);
+}
+
 
   function determinePhase() {
     // Determina a fase do jogo: Inicial,Intermediária ou Final
@@ -204,7 +203,7 @@ function showQuiz(companyCard) {
     );
 
     if (companyProblems.length === 0) {
-      showMessageModal("Atenção", "Todos os problemas dessa empresa já foram apresentados.");
+      showToast("Atenção", "Todos os problemas dessa empresa já foram apresentados.");
       removeAlertSignal(companyCard);
       quizActive = false;
       startProblemGenerationTimer();
@@ -214,7 +213,6 @@ function showQuiz(companyCard) {
     const randomIndex = Math.floor(Math.random() * companyProblems.length);
     currentProblem = companyProblems[randomIndex];
 
-    // ⚠️ Não marca como 'alreadyShown' aqui
     timeLeft = getQuizConfig().timeLimit;
   }
 
@@ -289,7 +287,7 @@ function showQuiz(companyCard) {
     confetti();
 
     setTimeout(() => {
-      showMessageModal("Resposta Correta", `Parabéns! Você ganhou ${pointsGained} moedas.`);
+      showToast("Resposta Correta", `Parabéns! Você ganhou ${pointsGained} moedas.`);
     }, 1000);
   } else {
     updateScore(-penaltyPerIncorrectAnswer);
@@ -299,7 +297,7 @@ function showQuiz(companyCard) {
 
     setTimeout(() => {
       document.body.classList.remove("shake");
-      showMessageModal("Resposta Incorreta", `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
+      showToast("Resposta Incorreta", `Você perdeu ${penaltyPerIncorrectAnswer} moedas.`);
     }, 500);
   }
 
